@@ -13,7 +13,7 @@ const SCALE_MAX = 5;
 const SCALE_MIN = 0.5;
 
 export default function Whiteboard() {
-    const [tool, setTool] = useState('pen');
+    const [tool, setTool] = useState('cursor');
     const [lines, setLines] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
@@ -34,12 +34,12 @@ export default function Whiteboard() {
         }
     };
 
-    const checkBackgroundDeselect = (el) => {
-        const clickedOnEmpty = el.target._id === 6;
-        if (clickedOnEmpty) {
-            selectShape(null);
-        }
-    }
+    // const checkBackgroundDeselect = (el) => {
+    //     const clickedOnEmpty = el.target._id === 6;
+    //     if (clickedOnEmpty) {
+    //         selectShape(null);
+    //     }
+    // }
 
     function zoomStage(event) {
         event.evt.preventDefault();
@@ -86,25 +86,35 @@ export default function Whiteboard() {
     });
 
     const handleMouseDown = (e) => {
-        isDrawing.current = true;
-        const pos = e.target.getStage().getRelativePointerPosition();
-        setLines([...lines, { tool, points: [pos.x, pos.y]}]);
+        const clickedOnEmpty = e.target._id === 9;
+        if (clickedOnEmpty) {
+            selectShape(null);
+        }
+        if (tool === 'pen' || tool === 'eraser') {
+            isDrawing.current = true;
+            const pos = e.target.getStage().getRelativePointerPosition();
+            setLines([...lines, {tool, points: [pos.x, pos.y]}]);
+        }
     }
 
     const handleMouseMove = (e) => {
-        if (!isDrawing.current) {
-            return;
+        if (tool === 'pen' || tool === 'eraser') {
+            if (!isDrawing.current) {
+                return;
+            }
+            const stage = e.target.getStage();
+            const point = stage.getRelativePointerPosition();
+            let lastLine = lines[lines.length - 1];
+            lastLine.points = lastLine.points.concat([point.x, point.y]);
+            lines.splice(lines.length - 1, 1, lastLine);
+            setLines(lines.concat());
         }
-        const stage = e.target.getStage();
-        const point = stage.getRelativePointerPosition();
-        let lastLine = lines[lines.length - 1];
-        lastLine.points = lastLine.points.concat([point.x, point.y]);
-        lines.splice(lines.length - 1, 1, lastLine);
-        setLines(lines.concat());
     }
 
     const handleMouseUp = (e) => {
-        isDrawing.current = false;
+        if (tool === 'pen' || tool === 'eraser') {
+            isDrawing.current = false;
+        }
     }
 
     const addCircle = () => {
@@ -137,15 +147,9 @@ export default function Whiteboard() {
         <div>
             <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
             <button className={styles.rect_button} onClick={addRectangle}>Add rectangle</button>
-            <select
-                value={tool}
-                onChange={(e) => {
-                    setTool(e.target.value);
-                }}
-            >
-                <option value={'pen'}>Pen</option>
-                <option value={'eraser'}>Eraser</option>
-            </select>
+            <button onClick={() => setTool('cursor')}>Cursor</button>
+            <button onClick={() => setTool('pen')}>Pen</button>
+            <button onClick={() => setTool('eraser')}>Eraser</button>
             <div>
                 <Stage
                     ref={stageEl}
@@ -154,7 +158,7 @@ export default function Whiteboard() {
                     onMouseDown={checkDeselect}
                     onWheel={zoomStage}
                 >
-                    <Layer ref={backLayerEl} onMouseDown={checkBackgroundDeselect}>
+                    <Layer ref={backLayerEl}>
                         <Image
                             image={background}
                             shadowColor={'black'}
@@ -165,6 +169,7 @@ export default function Whiteboard() {
                         />
                     </Layer>
                     <Layer
+                        ref={layerEl}
                         onMouseDown={handleMouseDown}
                         onMouseMove={handleMouseMove}
                         onMouseUp={handleMouseUp}
@@ -186,8 +191,6 @@ export default function Whiteboard() {
                                 }
                             />
                         ))}
-                    </Layer>
-                    <Layer ref={layerEl}>
                         {circles.map((circle, i) => {
                             return (
                                 <Circ
