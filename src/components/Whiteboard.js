@@ -1,5 +1,8 @@
 import React, {useRef, useState} from 'react';
-import {Layer, Rect, Stage} from 'react-konva';
+import {Image, Layer, Stage} from 'react-konva';
+import useImage from "use-image";
+import backgroundImage from '../images/Background.svg';
+
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
 
@@ -13,6 +16,8 @@ export default function Whiteboard() {
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
     const [selectedId, selectShape] = useState(null);
+
+    const [background] = useImage(backgroundImage);
 
     const stageEl = useRef(null);
     const layerEl = useRef();
@@ -69,7 +74,7 @@ export default function Whiteboard() {
         if (stageEl.current !== null) {
             const stage = stageEl.current;
             if (ev.code === 'Space') {
-                document.body.style.cursor = 'grab';
+                document.body.style.cursor = 'default';
                 stage.draggable(false);
             }
         }
@@ -107,7 +112,6 @@ export default function Whiteboard() {
             <button className={styles.rect_button} onClick={addRectangle}>Add rectangle</button>
             <div>
                 <Stage
-                    className={styles.whiteboard}
                     ref={stageEl}
                     width={3000}
                     height={1500}
@@ -115,11 +119,8 @@ export default function Whiteboard() {
                     onWheel={zoomStage}
                 >
                     <Layer ref={backLayerEl} onMouseDown={checkBackgroundDeselect}>
-                        <Rect
-                            width={3000}
-                            height={1500}
-                            fill={'white'}
-                            stroke={'#F5F5F5'}
+                        <Image
+                            image={background}
                             shadowColor={'black'}
                             shadowBlur={35}
                             shadowOpacity={0.05}
