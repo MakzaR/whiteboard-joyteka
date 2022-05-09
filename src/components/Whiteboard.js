@@ -14,15 +14,23 @@ export default function Whiteboard() {
     const [rectangles, setRectangles] = useState([]);
     const [selectedId, selectShape] = useState(null);
 
-    const stageEl = useRef();
+    const stageEl = useRef(null);
     const layerEl = useRef();
+    const backLayerEl = useRef();
 
-    const checkDeselect = (e) => {
-        const clickedOnEmpty = e.target === e.target.getStage();
+    const checkDeselect = (el) => {
+        const clickedOnEmpty = el.target === el.target.getStage();
         if (clickedOnEmpty) {
             selectShape(null);
         }
     };
+
+    const checkBackgroundDeselect = (el) => {
+        const clickedOnEmpty = el.target._id === 6;
+        if (clickedOnEmpty) {
+            selectShape(null);
+        }
+    }
 
     function zoomStage(event) {
         event.evt.preventDefault();
@@ -35,7 +43,6 @@ export default function Whiteboard() {
                 y: (pointerY - stage.y()) / oldScale,
             };
             const newScale = event.evt.deltaY > 0 ? oldScale * SCALE_BY : oldScale / SCALE_BY;
-            console.log(newScale)
             if (newScale < SCALE_MAX && newScale > SCALE_MIN) {
                 stage.scale({x: newScale, y: newScale});
                 const newPos = {
@@ -48,13 +55,33 @@ export default function Whiteboard() {
         }
     }
 
+    document.addEventListener('keydown', (ev) => {
+        if (stageEl.current !== null) {
+            const stage = stageEl.current;
+            if (ev.code === 'Space') {
+                document.body.style.cursor = 'grabbing';
+                stage.draggable(true);
+            }
+        }
+    });
+
+    document.addEventListener('keyup', (ev) => {
+        if (stageEl.current !== null) {
+            const stage = stageEl.current;
+            if (ev.code === 'Space') {
+                document.body.style.cursor = 'grab';
+                stage.draggable(false);
+            }
+        }
+    });
+
     const addCircle = () => {
         const circle = {
             x: 100,
             y: 100,
             width: 100,
             height: 100,
-            stroke: "black",
+            stroke: 'black',
             id: `circle${circles.length + 1}`,
         };
         const newCircles = circles.concat([circle]);
@@ -67,7 +94,7 @@ export default function Whiteboard() {
             y: 100,
             width: 100,
             height: 100,
-            stroke: "black",
+            stroke: 'black',
             id: `rect${rectangles.length + 1}`,
         };
         const newRects = rectangles.concat([rect]);
@@ -84,17 +111,23 @@ export default function Whiteboard() {
                     ref={stageEl}
                     width={3000}
                     height={1500}
-                    draggable
                     onMouseDown={checkDeselect}
                     onWheel={zoomStage}
                 >
-                    <Layer ref={layerEl}>
+                    <Layer ref={backLayerEl} onMouseDown={checkBackgroundDeselect}>
                         <Rect
                             width={3000}
                             height={1500}
                             fill={'white'}
-                            id={'background'}
+                            stroke={'#F5F5F5'}
+                            shadowColor={'black'}
+                            shadowBlur={35}
+                            shadowOpacity={0.05}
+                            shadowOffsetX={10}
+                            shadowOffsetY={10}
                         />
+                    </Layer>
+                    <Layer ref={layerEl}>
                         {circles.map((circle, i) => {
                             return (
                                 <Circ
