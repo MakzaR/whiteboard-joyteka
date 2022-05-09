@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image, Layer, Stage} from 'react-konva';
+import {Image, Layer, Line, Stage} from 'react-konva';
 import useImage from "use-image";
 import backgroundImage from '../images/Background.svg';
 
@@ -13,6 +13,8 @@ const SCALE_MAX = 5;
 const SCALE_MIN = 0.5;
 
 export default function Whiteboard() {
+    const [tool, setTool] = useState('pen');
+    const [lines, setLines] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
     const [selectedId, selectShape] = useState(null);
@@ -22,6 +24,8 @@ export default function Whiteboard() {
     const stageEl = useRef(null);
     const layerEl = useRef();
     const backLayerEl = useRef();
+
+    const isDrawing = useRef(false);
 
     const checkDeselect = (el) => {
         const clickedOnEmpty = el.target === el.target.getStage();
@@ -61,6 +65,7 @@ export default function Whiteboard() {
     }
 
     document.addEventListener('keydown', (ev) => {
+        handleMouseUp();
         if (stageEl.current !== null) {
             const stage = stageEl.current;
             if (ev.code === 'Space') {
@@ -79,6 +84,28 @@ export default function Whiteboard() {
             }
         }
     });
+
+    const handleMouseDown = (e) => {
+        isDrawing.current = true;
+        const pos = e.target.getStage().getRelativePointerPosition();
+        setLines([...lines, { tool, points: [pos.x, pos.y]}]);
+    }
+
+    const handleMouseMove = (e) => {
+        if (!isDrawing.current) {
+            return;
+        }
+        const stage = e.target.getStage();
+        const point = stage.getRelativePointerPosition();
+        let lastLine = lines[lines.length - 1];
+        lastLine.points = lastLine.points.concat([point.x, point.y]);
+        lines.splice(lines.length - 1, 1, lastLine);
+        setLines(lines.concat());
+    }
+
+    const handleMouseUp = (e) => {
+        isDrawing.current = false;
+    }
 
     const addCircle = () => {
         const circle = {
@@ -110,13 +137,25 @@ export default function Whiteboard() {
         <div>
             <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
             <button className={styles.rect_button} onClick={addRectangle}>Add rectangle</button>
+            <select
+                value={tool}
+                onChange={(e) => {
+                    setTool(e.target.value);
+                }}
+            >
+                <option value={'pen'}>Pen</option>
+                <option value={'eraser'}>Eraser</option>
+            </select>
             <div>
                 <Stage
                     ref={stageEl}
                     width={3000}
                     height={1500}
-                    onMouseDown={checkDeselect}
+                    // onMouseDown={checkDeselect}
                     onWheel={zoomStage}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
                 >
                     <Layer ref={backLayerEl} onMouseDown={checkBackgroundDeselect}>
                         <Image
@@ -127,6 +166,21 @@ export default function Whiteboard() {
                             shadowOffsetX={10}
                             shadowOffsetY={10}
                         />
+                    </Layer>
+                    <Layer>
+                        {lines.map((line, i) => (
+                            <Line
+                                key={i}
+                                points={line.points}
+                                stroke={'black'}
+                                strokeWidth={5}
+                                tension={0.5}
+                                lineCap={'round'}
+                                globalCompositeOperation={
+                                    line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                                }
+                            />
+                        ))}
                     </Layer>
                     <Layer ref={layerEl}>
                         {circles.map((circle, i) => {
