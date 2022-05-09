@@ -82,6 +82,21 @@ export default function Whiteboard() {
                 stage.draggable(true);
             }
         }
+        if (ev.shiftKey) {
+            switch (ev.code) {
+                case 'KeyP':
+                    setTool('pen');
+                    break;
+                case 'KeyE':
+                    setTool('eraser');
+                    break;
+                case 'KeyC':
+                    setTool('cursor');
+                    break;
+                default:
+                    break;
+            }
+        }
     });
 
     document.addEventListener('keyup', (ev) => {
