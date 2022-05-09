@@ -12,11 +12,22 @@ const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
 const SCALE_MIN = 0.5;
 
+function downloadURI(uri, name) {
+    let link = document.createElement('a');
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 export default function Whiteboard() {
     const [tool, setTool] = useState('cursor');
+
     const [lines, setLines] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
+
     const [selectedId, selectShape] = useState(null);
 
     const [background] = useImage(backgroundImage);
@@ -34,12 +45,10 @@ export default function Whiteboard() {
         }
     };
 
-    // const checkBackgroundDeselect = (el) => {
-    //     const clickedOnEmpty = el.target._id === 6;
-    //     if (clickedOnEmpty) {
-    //         selectShape(null);
-    //     }
-    // }
+    const handleExport = () => {
+        const uri = stageEl.current.toDataURL();
+        downloadURI(uri, 'stage.png');
+    };
 
     function zoomStage(event) {
         event.evt.preventDefault();
@@ -112,9 +121,7 @@ export default function Whiteboard() {
     }
 
     const handleMouseUp = (e) => {
-        if (tool === 'pen' || tool === 'eraser') {
-            isDrawing.current = false;
-        }
+        isDrawing.current = false;
     }
 
     const addCircle = () => {
@@ -150,6 +157,7 @@ export default function Whiteboard() {
             <button onClick={() => setTool('cursor')}>Cursor</button>
             <button onClick={() => setTool('pen')}>Pen</button>
             <button onClick={() => setTool('eraser')}>Eraser</button>
+            <button onClick={handleExport}>Export</button>
             <div>
                 <Stage
                     ref={stageEl}
