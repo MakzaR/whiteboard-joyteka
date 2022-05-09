@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image, Layer, Line, Stage} from 'react-konva';
+import {Image, Layer, Line, Rect, Stage} from 'react-konva';
 import useImage from "use-image";
 import backgroundImage from '../images/Background.svg';
 
@@ -151,11 +151,8 @@ export default function Whiteboard() {
                     ref={stageEl}
                     width={3000}
                     height={1500}
-                    // onMouseDown={checkDeselect}
+                    onMouseDown={checkDeselect}
                     onWheel={zoomStage}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
                 >
                     <Layer ref={backLayerEl} onMouseDown={checkBackgroundDeselect}>
                         <Image
@@ -167,7 +164,15 @@ export default function Whiteboard() {
                             shadowOffsetY={10}
                         />
                     </Layer>
-                    <Layer>
+                    <Layer
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                    >
+                        <Rect
+                            width={3000}
+                            height={1500}
+                        />
                         {lines.map((line, i) => (
                             <Line
                                 key={i}
