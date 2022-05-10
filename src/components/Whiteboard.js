@@ -8,6 +8,7 @@ import Img from "./Image";
 
 import backgroundImage from '../images/Background.svg';
 import styles from './Whiteboard.module.css'
+import {addTextNode} from "./Text";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -191,6 +192,10 @@ export default function Whiteboard() {
         imageUploadEl.current.click();
     }
 
+    const addText = () => {
+        addTextNode(stageEl.current.getStage(), layerEl.current);
+    }
+
     return (
         <div>
             <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
@@ -199,6 +204,7 @@ export default function Whiteboard() {
             <button onClick={() => setTool('pen')}>Pen</button>
             <button onClick={() => setTool('eraser')}>Eraser</button>
             <button onClick={addImage}>Add image</button>
+            <button onClick={addText}>Add text</button>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
