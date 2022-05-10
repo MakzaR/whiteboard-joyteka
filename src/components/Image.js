@@ -42,6 +42,7 @@ export default function Img({shapeProps, isSelected, onSelect, onChange, imageUr
                         height: Math.max(node.height() * scaleY),
                     })
                 }}
+                perfectDrawEnabled={false}
             />
             {isSelected && (
                 <Transformer

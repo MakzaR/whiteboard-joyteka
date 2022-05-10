@@ -2,13 +2,12 @@ import React, {useCallback, useRef, useState} from 'react';
 import {Image, Layer, Line, Rect, Stage} from 'react-konva';
 import useImage from "use-image";
 
-import backgroundImage from '../images/Background.svg';
-
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
-
-import styles from './Whiteboard.module.css'
 import Img from "./Image";
+
+import backgroundImage from '../images/Background.svg';
+import styles from './Whiteboard.module.css'
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -200,7 +199,7 @@ export default function Whiteboard() {
             <button onClick={() => setTool('pen')}>Pen</button>
             <button onClick={() => setTool('eraser')}>Eraser</button>
             <button onClick={addImage}>Add image</button>
-            <input ref={imageUploadEl} style={{ display: "none" }} type={'file'} onChange={uploadImage}/>
+            <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
                 <Stage

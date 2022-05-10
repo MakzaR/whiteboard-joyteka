@@ -15,10 +15,10 @@ export default function Circ({shapeProps, isSelected, onSelect, onChange}) {
     return (
         <React.Fragment>
             <Circle
-                onClick={onSelect}
                 ref={shapeRef}
                 {...shapeProps}
                 draggable
+                onClick={onSelect}
                 onDragEnd={(e) => {
                     onChange({
                         ...shapeProps,
@@ -42,6 +42,7 @@ export default function Circ({shapeProps, isSelected, onSelect, onChange}) {
                         height: Math.max(node.height() * scaleY),
                     })
                 }}
+                perfectDrawEnabled={false}
             />
             {isSelected && (
                 <Transformer
