@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {Image, Layer, Line, Rect, Stage} from 'react-konva';
 import useImage from "use-image";
 
@@ -30,17 +30,16 @@ export default function Whiteboard() {
     const [images, setImages] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
-
     const [selectedId, selectShape] = useState(null);
-
     const [background] = useImage(backgroundImage);
 
     const stageEl = useRef(null);
     const layerEl = useRef();
     const backLayerEl = useRef();
     const imageUploadEl = useRef();
-
     const isDrawing = useRef(false);
+
+    const [, updateState] = React.useState();
 
     const checkDeselect = (el) => {
         const clickedOnEmpty = el.target === el.target.getStage();
@@ -169,6 +168,8 @@ export default function Whiteboard() {
         setRectangles(newRects);
     }
 
+    const forceUpdate = useCallback(() => updateState({}), [])
+
     const uploadImage = (e) => {
         const reader = new FileReader();
         const file = e.target.files[0];
@@ -179,6 +180,7 @@ export default function Whiteboard() {
                 id: `image${images.length + 1}`
             });
             setImages(images);
+            forceUpdate();
         });
 
         if (file) {
@@ -187,7 +189,6 @@ export default function Whiteboard() {
     }
 
     const addImage = () => {
-        console.log("Added image")
         imageUploadEl.current.click();
     }
 
@@ -199,7 +200,7 @@ export default function Whiteboard() {
             <button onClick={() => setTool('pen')}>Pen</button>
             <button onClick={() => setTool('eraser')}>Eraser</button>
             <button onClick={addImage}>Add image</button>
-            <input type={'file'} ref={imageUploadEl} onChange={uploadImage}/>
+            <input ref={imageUploadEl} style={{ display: "none" }} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
                 <Stage
