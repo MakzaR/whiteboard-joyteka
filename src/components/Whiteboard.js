@@ -1,12 +1,14 @@
 import React, {useRef, useState} from 'react';
 import {Image, Layer, Line, Rect, Stage} from 'react-konva';
 import useImage from "use-image";
+
 import backgroundImage from '../images/Background.svg';
 
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
 
 import styles from './Whiteboard.module.css'
+import Img from "./Image";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -25,6 +27,7 @@ export default function Whiteboard() {
     const [tool, setTool] = useState('cursor');
 
     const [lines, setLines] = useState([]);
+    const [images, setImages] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
 
@@ -35,6 +38,7 @@ export default function Whiteboard() {
     const stageEl = useRef(null);
     const layerEl = useRef();
     const backLayerEl = useRef();
+    const imageUploadEl = useRef();
 
     const isDrawing = useRef(false);
 
@@ -165,6 +169,28 @@ export default function Whiteboard() {
         setRectangles(newRects);
     }
 
+    const uploadImage = (e) => {
+        const reader = new FileReader();
+        const file = e.target.files[0];
+
+        reader.addEventListener('load', () => {
+            images.push({
+                content: reader.result,
+                id: `image${images.length + 1}`
+            });
+            setImages(images);
+        });
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    const addImage = () => {
+        console.log("Added image")
+        imageUploadEl.current.click();
+    }
+
     return (
         <div>
             <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
@@ -172,6 +198,8 @@ export default function Whiteboard() {
             <button onClick={() => setTool('cursor')}>Cursor</button>
             <button onClick={() => setTool('pen')}>Pen</button>
             <button onClick={() => setTool('eraser')}>Eraser</button>
+            <button onClick={addImage}>Add image</button>
+            <input type={'file'} ref={imageUploadEl} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
                 <Stage
@@ -214,6 +242,22 @@ export default function Whiteboard() {
                                 }
                             />
                         ))}
+                        {images.map((image, i) => {
+                            return (
+                                <Img
+                                    key={i}
+                                    imageUrl={image.content}
+                                    isSelected={image.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(image.id);
+                                    }}
+                                    onChange={(newAttr) => {
+                                        const newImages = images.slice();
+                                        newImages[i] = newAttr;
+                                    }}
+                                />
+                            )
+                        })}
                         {circles.map((circle, i) => {
                             return (
                                 <Circ

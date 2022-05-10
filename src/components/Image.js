@@ -18,6 +18,7 @@ export default function Img({shapeProps, isSelected, onSelect, onChange, imageUr
         <React.Fragment>
             <Image
                 onClick={onSelect}
+                image={image}
                 ref={shapeRef}
                 {...shapeProps}
                 draggable
@@ -32,9 +33,6 @@ export default function Img({shapeProps, isSelected, onSelect, onChange, imageUr
                     const node = shapeRef.current;
                     const scaleX = node.scaleX();
                     const scaleY = node.scaleY();
-
-                    node.scaleX(1);
-                    node.scaleY(1);
 
                     onChange({
                         ...shapeProps,
