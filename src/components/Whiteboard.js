@@ -1,15 +1,15 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {Image, Layer, Line, Rect, Stage} from 'react-konva';
 import useImage from "use-image";
+import {useTools} from "../contexts/ToolContext";
 
+import Toolbar from "./Toolbar";
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
 import Img from "./Image";
+import {addTextNode} from "./Text";
 
 import backgroundImage from '../images/Background.svg';
-import styles from './Whiteboard.module.css'
-import {addTextNode} from "./Text";
-import {useTools} from "../contexts/ToolContext";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -25,7 +25,6 @@ function downloadURI(uri, name) {
 }
 
 export default function Whiteboard() {
-    // const [tool, setTool] = useState('cursor');
     const {tools, getTool, changeTool} = useTools();
     const tool = getTool();
 
@@ -37,12 +36,14 @@ export default function Whiteboard() {
     const [background] = useImage(backgroundImage);
 
     const stageEl = useRef(null);
-    const layerEl = useRef();
-    const backLayerEl = useRef();
+    const layerEl = useRef(null);
+    const backLayerEl = useRef(null);
     const imageUploadEl = useRef();
     const isDrawing = useRef(false);
 
     const [, updateState] = React.useState();
+
+    const forceUpdate = useCallback(() => updateState({}), [])
 
     const checkDeselect = (el) => {
         const clickedOnEmpty = el.target === el.target.getStage();
@@ -50,6 +51,63 @@ export default function Whiteboard() {
             selectShape(null);
         }
     };
+
+    const handleMouseDown = (e) => {
+        const clickedOnEmpty = e.target._id === 9;
+        const stage = stageEl.current.getStage();
+        if (clickedOnEmpty) {
+            selectShape(null);
+        }
+        switch (tool) {
+            case tools.CURSOR:
+                stage.draggable(false);
+                break;
+            case tools.HAND:
+                stage.draggable(true);
+                break;
+            case tools.PEN:
+                stage.draggable(false);
+                isDrawing.current = true;
+                const drawPos = e.target.getStage().getRelativePointerPosition();
+                setLines([...lines, {tool, points: [drawPos.x, drawPos.y]}]);
+                break;
+            case tools.ERASER:
+                stage.draggable(false);
+                isDrawing.current = true;
+                const erasePos = e.target.getStage().getRelativePointerPosition();
+                setLines([...lines, {tool, points: [erasePos.x, erasePos.y]}]);
+                break;
+            case tools.CIRCLE:
+                stage.draggable(false);
+                addCircle(e);
+                break;
+            case tools.RECTANGLE:
+                stage.draggable(false);
+                addRectangle(e);
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    const handleMouseMove = (e) => {
+        if (tool === tools.PEN || tool === tools.ERASER) {
+            if (!isDrawing.current) {
+                return;
+            }
+            const stage = e.target.getStage();
+            const point = stage.getRelativePointerPosition();
+            let lastLine = lines[lines.length - 1];
+            lastLine.points = lastLine.points.concat([point.x, point.y]);
+            lines.splice(lines.length - 1, 1, lastLine);
+            setLines(lines.concat());
+        }
+    }
+
+    const handleMouseUp = () => {
+        isDrawing.current = false;
+    }
 
     const handleExport = () => {
         const uri = stageEl.current.toDataURL();
@@ -80,14 +138,14 @@ export default function Whiteboard() {
     }
 
     document.addEventListener('keydown', (ev) => {
-        handleMouseUp();
-        if (stageEl.current !== null) {
-            const stage = stageEl.current;
-            if (ev.code === 'Space') {
-                document.body.style.cursor = 'grabbing';
-                stage.draggable(true);
-            }
-        }
+        // if (stageEl.current !== null) {
+        //     const stage = stageEl.current;
+        //     if (ev.code === 'Space') {
+        //         changeTool(tools.HAND)
+        //         document.body.style.cursor = 'grabbing';
+        //         stage.draggable(true);
+        //     }
+        // }
         if (ev.shiftKey) {
             switch (ev.code) {
                 case 'KeyP':
@@ -105,50 +163,21 @@ export default function Whiteboard() {
         }
     });
 
-    document.addEventListener('keyup', (ev) => {
-        if (stageEl.current !== null) {
-            const stage = stageEl.current;
-            if (ev.code === 'Space') {
-                document.body.style.cursor = 'default';
-                stage.draggable(false);
-            }
-        }
-    });
+    // document.addEventListener('keyup', (ev) => {
+    //     if (stageEl.current !== null) {
+    //         const stage = stageEl.current;
+    //         if (ev.code === 'Space') {
+    //             document.body.style.cursor = 'default';
+    //             stage.draggable(false);
+    //         }
+    //     }
+    // });
 
-    const handleMouseDown = (e) => {
-        const clickedOnEmpty = e.target._id === 9;
-        if (clickedOnEmpty) {
-            selectShape(null);
-        }
-        if (tool === tools.PEN || tool === tools.ERASER) {
-            isDrawing.current = true;
-            const pos = e.target.getStage().getRelativePointerPosition();
-            setLines([...lines, {tool, points: [pos.x, pos.y]}]);
-        }
-    }
-
-    const handleMouseMove = (e) => {
-        if (tool === tools.PEN || tool === tools.ERASER) {
-            if (!isDrawing.current) {
-                return;
-            }
-            const stage = e.target.getStage();
-            const point = stage.getRelativePointerPosition();
-            let lastLine = lines[lines.length - 1];
-            lastLine.points = lastLine.points.concat([point.x, point.y]);
-            lines.splice(lines.length - 1, 1, lastLine);
-            setLines(lines.concat());
-        }
-    }
-
-    const handleMouseUp = (e) => {
-        isDrawing.current = false;
-    }
-
-    const addCircle = () => {
+    const addCircle = (e) => {
+        const stage = e.target.getStage();
         const circle = {
-            x: 100,
-            y: 100,
+            x: stage.getRelativePointerPosition().x,
+            y: stage.getRelativePointerPosition().y,
             width: 100,
             height: 100,
             stroke: 'black',
@@ -158,10 +187,11 @@ export default function Whiteboard() {
         setCircles(newCircles);
     };
 
-    const addRectangle = () => {
+    const addRectangle = (e) => {
+        const stage = e.target.getStage();
         const rect = {
-            x: 100,
-            y: 100,
+            x: stage.getRelativePointerPosition().x,
+            y: stage.getRelativePointerPosition().y,
             width: 100,
             height: 100,
             stroke: 'black',
@@ -170,8 +200,6 @@ export default function Whiteboard() {
         const newRects = rectangles.concat([rect]);
         setRectangles(newRects);
     }
-
-    const forceUpdate = useCallback(() => updateState({}), [])
 
     const uploadImage = (e) => {
         const reader = new FileReader();
@@ -201,11 +229,7 @@ export default function Whiteboard() {
 
     return (
         <div>
-            <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
-            <button className={styles.rect_button} onClick={addRectangle}>Add rectangle</button>
-            <button onClick={() => changeTool(tools.CURSOR)}>Cursor</button>
-            <button onClick={() => changeTool(tools.PEN)}>Pen</button>
-            <button onClick={() => changeTool(tools.ERASER)}>Eraser</button>
+            <Toolbar/>
             <button onClick={addImage}>Add image</button>
             <button onClick={addText}>Add text</button>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>

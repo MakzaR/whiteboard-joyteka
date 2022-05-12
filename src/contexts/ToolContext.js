@@ -12,8 +12,12 @@ export function ToolProvider({children}) {
 
     const tools = {
         CURSOR: 'cursor',
+        HAND: 'hand',
+        TEXT: 'text',
         PEN: 'pen',
-        ERASER: 'eraser'
+        ERASER: 'eraser',
+        CIRCLE: 'circle',
+        RECTANGLE: 'rectangle'
     }
 
     const getTool = () => {
