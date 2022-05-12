@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTools} from "../contexts/ToolContext";
 
-export default function Toolbar() {
+export default function Toolbar({addImage}) {
     const {tools, changeTool} = useTools();
 
     return (
@@ -12,6 +12,7 @@ export default function Toolbar() {
             <button onClick={() => changeTool(tools.ERASER)}>Eraser</button>
             <button onClick={() => changeTool(tools.CIRCLE)}>Add circle</button>
             <button onClick={() => changeTool(tools.RECTANGLE)}>Add rectangle</button>
+            <button onClick={addImage}>Add image</button>
             <button onClick={() => changeTool(tools.TEXT)}>Add text</button>
         </>
     );

@@ -13,7 +13,7 @@ import backgroundImage from '../images/Background.svg';
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
-const SCALE_MIN = 0.5;
+const SCALE_MIN = 0.65;
 
 function downloadURI(uri, name) {
     let link = document.createElement('a');
@@ -144,6 +144,7 @@ export default function Whiteboard() {
             const newScale = event.evt.deltaY > 0 ? oldScale * SCALE_BY : oldScale / SCALE_BY;
             if (newScale < SCALE_MAX && newScale > SCALE_MIN) {
                 stage.scale({x: newScale, y: newScale});
+                console.log(newScale)
                 const newPos = {
                     x: pointerX - mousePointTo.x * newScale,
                     y: pointerY - mousePointTo.y * newScale,
@@ -155,14 +156,9 @@ export default function Whiteboard() {
     }
 
     document.addEventListener('keydown', (ev) => {
-        // if (stageEl.current !== null) {
-        //     const stage = stageEl.current;
-        //     if (ev.code === 'Space') {
-        //         changeTool(tools.HAND)
-        //         document.body.style.cursor = 'grabbing';
-        //         stage.draggable(true);
-        //     }
-        // }
+        if (ev.code === 'Space') {
+            changeTool(tools.HAND)
+        }
         if (ev.shiftKey) {
             switch (ev.code) {
                 case 'KeyP':
@@ -180,15 +176,11 @@ export default function Whiteboard() {
         }
     });
 
-    // document.addEventListener('keyup', (ev) => {
-    //     if (stageEl.current !== null) {
-    //         const stage = stageEl.current;
-    //         if (ev.code === 'Space') {
-    //             document.body.style.cursor = 'default';
-    //             stage.draggable(false);
-    //         }
-    //     }
-    // });
+    document.addEventListener('keyup', (ev) => {
+        if (ev.code === 'Space') {
+            changeTool(tools.CURSOR)
+        }
+    });
 
     const addCircle = (e) => {
         const stage = e.target.getStage();
@@ -225,7 +217,9 @@ export default function Whiteboard() {
         reader.addEventListener('load', () => {
             images.push({
                 content: reader.result,
-                id: `image${images.length + 1}`
+                id: `image${images.length + 1}`,
+                x: 600,
+                y: 600
             });
             setImages(images);
             forceUpdate();
@@ -246,8 +240,7 @@ export default function Whiteboard() {
 
     return (
         <div>
-            <Toolbar/>
-            <button onClick={addImage}>Add image</button>
+            <Toolbar addImage={addImage}/>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
@@ -295,6 +288,7 @@ export default function Whiteboard() {
                             return (
                                 <Img
                                     key={i}
+                                    shapeProps={image}
                                     imageUrl={image.content}
                                     isSelected={image.id === selectedId}
                                     onSelect={() => {
