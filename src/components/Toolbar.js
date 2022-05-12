@@ -12,6 +12,7 @@ export default function Toolbar() {
             <button onClick={() => changeTool(tools.ERASER)}>Eraser</button>
             <button onClick={() => changeTool(tools.CIRCLE)}>Add circle</button>
             <button onClick={() => changeTool(tools.RECTANGLE)}>Add rectangle</button>
+            <button onClick={() => changeTool(tools.TEXT)}>Add text</button>
         </>
     );
 }

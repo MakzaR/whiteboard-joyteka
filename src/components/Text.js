@@ -4,12 +4,13 @@ import {v4 as uuidv4} from 'uuid';
 export const addTextNode = (stage, layer) => {
     const id = uuidv4();
     const textNode = new Konva.Text({
-        text: 'Новый текст...',
+        text: ' ',
         x: stage.getPointerPosition().x,
         y: stage.getPointerPosition().y,
         fontSize: 20,
         draggable: true,
         width: 100,
+        name: 'textNode',
         id
     });
 
@@ -25,17 +26,15 @@ export const addTextNode = (stage, layer) => {
     });
 
     stage.on('click', function (ev) {
-        if (!this.clickStartShape) {
-            return
+        if (ev.target._id === 9) {
+            console.log(ev.target)
+            transformer.nodes([]);
+            return;
         }
-        if (ev.target._id === this.clickStartShape._id) {
-            layer.add(transformer);
-            transformer.nodes([ev.target]);
-            layer.draw();
-        } else {
-            transformer.detach();
-            layer.draw();
+        if (!ev.target.hasName('textNode')) {
+            return;
         }
+        transformer.nodes([ev.target]);
     });
 
     textNode.on('transform', () => {

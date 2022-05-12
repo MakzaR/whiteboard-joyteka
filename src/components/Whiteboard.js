@@ -65,10 +65,6 @@ export default function Whiteboard() {
             case tools.HAND:
                 stage.draggable(true);
                 break;
-            case tools.TEXT:
-                stage.draggable(false);
-                addText();
-                break;
             case tools.PEN:
                 stage.draggable(false);
                 isDrawing.current = true;
@@ -76,7 +72,7 @@ export default function Whiteboard() {
                 setLines([...lines, {
                     tool,
                     points: [drawPos.x, drawPos.y],
-                    color: 'black',
+                    color: 'red',
                     width: 1
                 }]);
                 break;
@@ -84,15 +80,27 @@ export default function Whiteboard() {
                 stage.draggable(false);
                 isDrawing.current = true;
                 const erasePos = e.target.getStage().getRelativePointerPosition();
-                setLines([...lines, {tool, points: [erasePos.x, erasePos.y]}]);
+                setLines([...lines, {
+                    tool,
+                    points: [erasePos.x, erasePos.y],
+                    color: 'black',
+                    width: 5
+                }]);
+                break;
+            case tools.TEXT:
+                stage.draggable(false);
+                addText();
+                changeTool(tools.CURSOR);
                 break;
             case tools.CIRCLE:
                 stage.draggable(false);
                 addCircle(e);
+                changeTool(tools.CURSOR);
                 break;
             case tools.RECTANGLE:
                 stage.draggable(false);
                 addRectangle(e);
+                changeTool(tools.CURSOR);
                 break;
             default:
                 break;
@@ -240,7 +248,6 @@ export default function Whiteboard() {
         <div>
             <Toolbar/>
             <button onClick={addImage}>Add image</button>
-            <button onClick={() => changeTool(tools.TEXT)}>Add text</button>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>
