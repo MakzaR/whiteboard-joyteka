@@ -9,6 +9,7 @@ import Img from "./Image";
 import backgroundImage from '../images/Background.svg';
 import styles from './Whiteboard.module.css'
 import {addTextNode} from "./Text";
+import {useTools} from "../contexts/ToolContext";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -24,7 +25,9 @@ function downloadURI(uri, name) {
 }
 
 export default function Whiteboard() {
-    const [tool, setTool] = useState('cursor');
+    // const [tool, setTool] = useState('cursor');
+    const {tools, getTool, changeTool} = useTools();
+    const tool = getTool();
 
     const [lines, setLines] = useState([]);
     const [images, setImages] = useState([]);
@@ -88,13 +91,13 @@ export default function Whiteboard() {
         if (ev.shiftKey) {
             switch (ev.code) {
                 case 'KeyP':
-                    setTool('pen');
+                    changeTool(tools.PEN);
                     break;
                 case 'KeyE':
-                    setTool('eraser');
+                    changeTool(tools.ERASER);
                     break;
                 case 'KeyC':
-                    setTool('cursor');
+                    changeTool(tools.CURSOR);
                     break;
                 default:
                     break;
@@ -117,7 +120,7 @@ export default function Whiteboard() {
         if (clickedOnEmpty) {
             selectShape(null);
         }
-        if (tool === 'pen' || tool === 'eraser') {
+        if (tool === tools.PEN || tool === tools.ERASER) {
             isDrawing.current = true;
             const pos = e.target.getStage().getRelativePointerPosition();
             setLines([...lines, {tool, points: [pos.x, pos.y]}]);
@@ -125,7 +128,7 @@ export default function Whiteboard() {
     }
 
     const handleMouseMove = (e) => {
-        if (tool === 'pen' || tool === 'eraser') {
+        if (tool === tools.PEN || tool === tools.ERASER) {
             if (!isDrawing.current) {
                 return;
             }
@@ -200,9 +203,9 @@ export default function Whiteboard() {
         <div>
             <button className={styles.circle_button} onClick={addCircle}>Add circle</button>
             <button className={styles.rect_button} onClick={addRectangle}>Add rectangle</button>
-            <button onClick={() => setTool('cursor')}>Cursor</button>
-            <button onClick={() => setTool('pen')}>Pen</button>
-            <button onClick={() => setTool('eraser')}>Eraser</button>
+            <button onClick={() => changeTool(tools.CURSOR)}>Cursor</button>
+            <button onClick={() => changeTool(tools.PEN)}>Pen</button>
+            <button onClick={() => changeTool(tools.ERASER)}>Eraser</button>
             <button onClick={addImage}>Add image</button>
             <button onClick={addText}>Add text</button>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
@@ -244,7 +247,7 @@ export default function Whiteboard() {
                                 tension={0.5}
                                 lineCap={'round'}
                                 globalCompositeOperation={
-                                    line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                                    line.tool === tools.ERASER ? 'destination-out' : 'source-over'
                                 }
                             />
                         ))}
