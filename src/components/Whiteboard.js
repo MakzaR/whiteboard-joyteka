@@ -1,5 +1,5 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {Image, Layer, Line, Rect, Stage} from 'react-konva';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Image, Layer, Line, Stage} from 'react-konva';
 import useImage from "use-image";
 import {useTools} from "../contexts/ToolContext";
 
@@ -32,6 +32,7 @@ export default function Whiteboard() {
     const [images, setImages] = useState([]);
     const [circles, setCircles] = useState([]);
     const [rectangles, setRectangles] = useState([]);
+    const [textNodes, setTextNodes] = useState([]);
     const [selectedId, selectShape] = useState(null);
     const [background] = useImage(backgroundImage);
 
@@ -46,12 +47,32 @@ export default function Whiteboard() {
 
     const forceUpdate = useCallback(() => updateState({}), [])
 
-    // const checkDeselect = (el) => {
-    //     const clickedOnEmpty = el.target === el.target.getStage();
-    //     if (clickedOnEmpty) {
-    //         selectShape(null);
-    //     }
-    // };
+    const keyPress = (ev) => {
+        if (ev.code === 'Space') {
+            changeTool(tools.HAND)
+        }
+        if (ev.code === "Delete") {
+            handleDelete();
+        }
+        if (ev.shiftKey) {
+            handleShortcuts(ev);
+        }
+    };
+
+    const keyRelease = (ev) => {
+        if (ev.code === 'Space') {
+            changeTool(tools.CURSOR)
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('keydown', keyPress);
+        document.addEventListener('keyup', keyRelease)
+        return () => {
+            document.removeEventListener('keydown', keyPress);
+            document.removeEventListener('keyup', keyRelease);
+        }
+    }, [keyPress, keyRelease]);
 
     const handleMouseDown = (e) => {
         const clickedOnEmptyStage = e.target === e.target.getStage();
@@ -108,7 +129,6 @@ export default function Whiteboard() {
                 break;
             default:
                 break;
-
         }
     }
 
@@ -128,6 +148,53 @@ export default function Whiteboard() {
 
     const handleMouseUp = () => {
         isDrawing.current = false;
+    }
+
+    const handleDelete = () => {
+        let circleIndex = circles.findIndex(c => c.id === selectedId);
+        if (circleIndex !== -1) {
+            circles.splice(circleIndex, 1);
+            setCircles(circles);
+        }
+
+        let rectIndex = rectangles.findIndex(r => r.id === selectedId);
+        if (rectIndex !== -1) {
+            rectangles.splice(rectIndex, 1);
+            setRectangles(rectangles);
+        }
+
+        let imgIndex = images.findIndex(i => i.id === selectedId);
+        if (imgIndex !== -1) {
+            images.splice(imgIndex, 1);
+            setImages(images);
+        }
+
+        let textIndex = textNodes.findIndex(t => t.id === selectedId);
+        console.log(textNodes)
+        console.log(textIndex)
+        if (textIndex !== -1) {
+            console.log(textNodes)
+            textNodes.splice(textIndex, 1);
+            setImages(textNodes);
+        }
+
+        forceUpdate();
+    };
+
+    const handleShortcuts = (ev) => {
+        switch (ev.code) {
+            case 'KeyP':
+                changeTool(tools.PEN);
+                break;
+            case 'KeyE':
+                changeTool(tools.ERASER);
+                break;
+            case 'KeyC':
+                changeTool(tools.CURSOR);
+                break;
+            default:
+                break;
+        }
     }
 
     const handleExport = () => {
@@ -157,33 +224,6 @@ export default function Whiteboard() {
             }
         }
     }
-
-    document.addEventListener('keydown', (ev) => {
-        if (ev.code === 'Space') {
-            changeTool(tools.HAND)
-        }
-        if (ev.shiftKey) {
-            switch (ev.code) {
-                case 'KeyP':
-                    changeTool(tools.PEN);
-                    break;
-                case 'KeyE':
-                    changeTool(tools.ERASER);
-                    break;
-                case 'KeyC':
-                    changeTool(tools.CURSOR);
-                    break;
-                default:
-                    break;
-            }
-        }
-    });
-
-    document.addEventListener('keyup', (ev) => {
-        if (ev.code === 'Space') {
-            changeTool(tools.CURSOR)
-        }
-    });
 
     const addCircle = (e) => {
         const stage = e.target.getStage();
@@ -238,7 +278,9 @@ export default function Whiteboard() {
     }
 
     const addText = () => {
-        addTextNode(stageEl.current.getStage(), layerEl.current, mainGroupEl.current);
+        const id = addTextNode(stageEl.current.getStage(), layerEl.current, mainGroupEl.current);
+        const newTextNodes = textNodes.concat([{id}]);
+        setTextNodes(newTextNodes);
     }
 
     return (
