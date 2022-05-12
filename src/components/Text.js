@@ -26,17 +26,16 @@ export const addTextNode = (stage, layer) => {
     });
 
     stage.on('click', function (ev) {
-        const clickedOnEmpty = ev.target === ev.target.getStage();
-        if (ev.target._id === 9 || clickedOnEmpty) {
+        const clickedOnEmptyStage = ev.target === ev.target.getStage();
+        const clickedOnEmptyBackground = ev.target._id === 6;
+        if (clickedOnEmptyStage|| clickedOnEmptyBackground) {
             transformer.nodes([]);
-            layer.draw();
             return;
         }
         if (!ev.target.hasName('textNode')) {
             return;
         }
         transformer.nodes([ev.target]);
-        layer.draw();
     });
 
     textNode.on('transform', () => {

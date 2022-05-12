@@ -38,6 +38,7 @@ export default function Whiteboard() {
     const stageEl = useRef(null);
     const layerEl = useRef(null);
     const backLayerEl = useRef(null);
+    const mainGroupEl = useRef(null);
     const imageUploadEl = useRef();
     const isDrawing = useRef(false);
 
@@ -45,19 +46,22 @@ export default function Whiteboard() {
 
     const forceUpdate = useCallback(() => updateState({}), [])
 
-    const checkDeselect = (el) => {
-        const clickedOnEmpty = el.target === el.target.getStage();
-        if (clickedOnEmpty) {
-            selectShape(null);
-        }
-    };
+    // const checkDeselect = (el) => {
+    //     const clickedOnEmpty = el.target === el.target.getStage();
+    //     if (clickedOnEmpty) {
+    //         selectShape(null);
+    //     }
+    // };
 
     const handleMouseDown = (e) => {
-        const clickedOnEmpty = e.target._id === 9;
-        const stage = stageEl.current.getStage();
-        if (clickedOnEmpty) {
+        const clickedOnEmptyStage = e.target === e.target.getStage();
+        const clickedOnEmptyBackground = e.target._id === 6;
+
+        if (clickedOnEmptyStage || clickedOnEmptyBackground) {
             selectShape(null);
         }
+
+        const stage = stageEl.current.getStage();
         switch (tool) {
             case tools.CURSOR:
                 stage.draggable(false);
@@ -73,7 +77,7 @@ export default function Whiteboard() {
                     tool,
                     points: [drawPos.x, drawPos.y],
                     color: 'red',
-                    width: 1
+                    width: 5
                 }]);
                 break;
             case tools.ERASER:
@@ -144,7 +148,6 @@ export default function Whiteboard() {
             const newScale = event.evt.deltaY > 0 ? oldScale * SCALE_BY : oldScale / SCALE_BY;
             if (newScale < SCALE_MAX && newScale > SCALE_MIN) {
                 stage.scale({x: newScale, y: newScale});
-                console.log(newScale)
                 const newPos = {
                     x: pointerX - mousePointTo.x * newScale,
                     y: pointerY - mousePointTo.y * newScale,
@@ -235,7 +238,7 @@ export default function Whiteboard() {
     }
 
     const addText = () => {
-        addTextNode(stageEl.current.getStage(), layerEl.current);
+        addTextNode(stageEl.current.getStage(), layerEl.current, mainGroupEl.current);
     }
 
     return (
@@ -248,8 +251,10 @@ export default function Whiteboard() {
                     ref={stageEl}
                     width={3000}
                     height={1500}
-                    onMouseDown={checkDeselect}
                     onWheel={zoomStage}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
                 >
                     <Layer ref={backLayerEl}>
                         <Image
@@ -261,16 +266,7 @@ export default function Whiteboard() {
                             shadowOffsetY={10}
                         />
                     </Layer>
-                    <Layer
-                        ref={layerEl}
-                        onMouseDown={handleMouseDown}
-                        onMouseMove={handleMouseMove}
-                        onMouseUp={handleMouseUp}
-                    >
-                        <Rect
-                            width={3000}
-                            height={1500}
-                        />
+                    <Layer ref={layerEl}>
                         {lines.map((line, i) => (
                             <Line
                                 key={i}
