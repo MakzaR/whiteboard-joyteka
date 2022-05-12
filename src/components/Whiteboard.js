@@ -65,6 +65,10 @@ export default function Whiteboard() {
             case tools.HAND:
                 stage.draggable(true);
                 break;
+            case tools.TEXT:
+                stage.draggable(false);
+                addText();
+                break;
             case tools.PEN:
                 stage.draggable(false);
                 isDrawing.current = true;
@@ -236,7 +240,7 @@ export default function Whiteboard() {
         <div>
             <Toolbar/>
             <button onClick={addImage}>Add image</button>
-            <button onClick={addText}>Add text</button>
+            <button onClick={() => changeTool(tools.TEXT)}>Add text</button>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
             <button onClick={handleExport}>Export</button>
             <div>

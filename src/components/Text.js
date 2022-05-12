@@ -5,8 +5,8 @@ export const addTextNode = (stage, layer) => {
     const id = uuidv4();
     const textNode = new Konva.Text({
         text: 'Новый текст...',
-        x: 100,
-        y: 100,
+        x: stage.getPointerPosition().x,
+        y: stage.getPointerPosition().y,
         fontSize: 20,
         draggable: true,
         width: 100,
