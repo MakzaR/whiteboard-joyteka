@@ -69,7 +69,12 @@ export default function Whiteboard() {
                 stage.draggable(false);
                 isDrawing.current = true;
                 const drawPos = e.target.getStage().getRelativePointerPosition();
-                setLines([...lines, {tool, points: [drawPos.x, drawPos.y]}]);
+                setLines([...lines, {
+                    tool,
+                    points: [drawPos.x, drawPos.y],
+                    color: 'black',
+                    width: 1
+                }]);
                 break;
             case tools.ERASER:
                 stage.draggable(false);
@@ -266,8 +271,8 @@ export default function Whiteboard() {
                             <Line
                                 key={i}
                                 points={line.points}
-                                stroke={'black'}
-                                strokeWidth={5}
+                                stroke={line.color}
+                                strokeWidth={line.width}
                                 tension={0.5}
                                 lineCap={'round'}
                                 globalCompositeOperation={
