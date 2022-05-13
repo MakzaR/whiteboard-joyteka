@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Image, Layer, Line, Stage} from 'react-konva';
+import {Image, Layer, Line, Stage, Transformer} from 'react-konva';
 import useImage from "use-image";
 import {useTools} from "../contexts/ToolContext";
 
@@ -7,7 +7,7 @@ import Toolbar from "./Toolbar";
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
 import Img from "./Image";
-import {addTextNode} from "./Text";
+import {addTextNode, deleteTextNode} from "./Text";
 
 import backgroundImage from '../images/Background.svg';
 
@@ -39,7 +39,7 @@ export default function Whiteboard() {
     const stageEl = useRef(null);
     const layerEl = useRef(null);
     const backLayerEl = useRef(null);
-    const mainGroupEl = useRef(null);
+    const textTransformer = useRef(null);
     const imageUploadEl = useRef();
     const isDrawing = useRef(false);
 
@@ -67,7 +67,7 @@ export default function Whiteboard() {
 
     useEffect(() => {
         document.addEventListener('keydown', keyPress);
-        document.addEventListener('keyup', keyRelease)
+        document.addEventListener('keyup', keyRelease);
         return () => {
             document.removeEventListener('keydown', keyPress);
             document.removeEventListener('keyup', keyRelease);
@@ -76,7 +76,7 @@ export default function Whiteboard() {
 
     const handleMouseDown = (e) => {
         const clickedOnEmptyStage = e.target === e.target.getStage();
-        const clickedOnEmptyBackground = e.target._id === 6;
+        const clickedOnEmptyBackground = e.target._id === 17;
 
         if (clickedOnEmptyStage || clickedOnEmptyBackground) {
             selectShape(null);
@@ -169,14 +169,15 @@ export default function Whiteboard() {
             setImages(images);
         }
 
-        let textIndex = textNodes.findIndex(t => t.id === selectedId);
-        console.log(textNodes)
-        console.log(textIndex)
-        if (textIndex !== -1) {
-            console.log(textNodes)
-            textNodes.splice(textIndex, 1);
-            setImages(textNodes);
-        }
+        // let textIndex = textNodes.findIndex(t => t.id === selectedId);
+        // console.log(selectedId);
+        // console.log(textIndex);
+        // console.log(textNodes);
+        // if (textIndex !== -1) {
+        //     textNodes.splice(textIndex, 1);
+        //     deleteTextNode(layerEl.current, textTransformer.current)
+        //     setTextNodes(textNodes);
+        // }
 
         forceUpdate();
     };
@@ -278,9 +279,20 @@ export default function Whiteboard() {
     }
 
     const addText = () => {
-        const id = addTextNode(stageEl.current.getStage(), layerEl.current, mainGroupEl.current);
+        const id = addTextNode(stageEl.current.getStage(), layerEl.current, textTransformer.current);
         const newTextNodes = textNodes.concat([{id}]);
         setTextNodes(newTextNodes);
+    }
+
+    const handleSelectText = (ev) => {
+        if (ev.target.hasName('textNode')) {
+            const id = ev.target.attrs.id
+            console.log(ev.target)
+            console.log(id);
+            selectShape(id);
+            console.log(selectedId === id)
+            // deleteTextNode(layerEl.current, ev.target)
+        }
     }
 
     return (
@@ -297,6 +309,7 @@ export default function Whiteboard() {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onClick={handleSelectText}
                 >
                     <Layer ref={backLayerEl}>
                         <Image
@@ -309,6 +322,14 @@ export default function Whiteboard() {
                         />
                     </Layer>
                     <Layer ref={layerEl}>
+                        <Transformer
+                            ref={textTransformer}
+                            enabledAnchors={['middle-left', 'middle-right']}
+                            boundBoxFunc={(oldBox, newBox) => {
+                                newBox.width = Math.max(30, newBox.width);
+                                return newBox;
+                            }}
+                        />
                         {lines.map((line, i) => (
                             <Line
                                 key={i}

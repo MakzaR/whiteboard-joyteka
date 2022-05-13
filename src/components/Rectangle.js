@@ -41,7 +41,8 @@ export default function Rectangle({shapeProps, isSelected, onSelect, onChange}) 
                         width: Math.max(5, node.width() * scaleX),
                         height: Math.max(node.height() * scaleY),
                     })
-                }}perfectDrawEnabled={false}
+                }}
+                perfectDrawEnabled={false}
             />
             {isSelected && (
                 <Transformer
