@@ -49,7 +49,7 @@ export default function Whiteboard() {
 
     const keyPress = (ev) => {
         if (ev.code === 'Space') {
-            changeTool(tools.HAND)
+            changeTool(tools.HAND);
         }
         if (ev.code === "Delete") {
             handleDelete();
