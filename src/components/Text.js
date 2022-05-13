@@ -18,7 +18,7 @@ export const addTextNode = (stage, layer, transformer) => {
 
     stage.on('click', function (ev) {
         const clickedOnEmptyStage = ev.target === ev.target.getStage();
-        const clickedOnEmptyBackground = ev.target._id === 17;
+        const clickedOnEmptyBackground = ev.target.hasName('background');
         if (clickedOnEmptyStage || clickedOnEmptyBackground) {
             transformer.nodes([]);
             return;

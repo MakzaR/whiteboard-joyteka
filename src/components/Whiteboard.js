@@ -76,7 +76,7 @@ export default function Whiteboard() {
 
     const handleMouseDown = (e) => {
         const clickedOnEmptyStage = e.target === e.target.getStage();
-        const clickedOnEmptyBackground = e.target._id === 17;
+        const clickedOnEmptyBackground = e.target.hasName('background');
 
         if (clickedOnEmptyStage || clickedOnEmptyBackground) {
             selectShape(null);
@@ -314,6 +314,7 @@ export default function Whiteboard() {
                             shadowOpacity={0.05}
                             shadowOffsetX={10}
                             shadowOffsetY={10}
+                            name={'background'}
                         />
                     </Layer>
                     <Layer ref={layerEl}>
