@@ -293,9 +293,8 @@ export default function Whiteboard() {
 
     return (
         <div>
-            <Toolbar addImage={addImage}/>
+            <Toolbar addImage={addImage} handleExport={handleExport}/>
             <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
-            <button onClick={handleExport}>Export</button>
             <div>
                 <Stage
                     ref={stageEl}

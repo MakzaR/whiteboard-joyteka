@@ -1,0 +1,56 @@
+.tool_button {
+    position: fixed;
+    z-index: 1;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 1px 1px 35px rgba(0, 0, 0, .1);
+}
+
+.cursor_tool {
+    top: 32px;
+    left: 32px;
+}
+
+.hand_tool {
+    top: 128px;
+    left: 32px;
+}
+
+.text_tool {
+    top: 288px;
+    left: 32px;
+}
+
+.pen_tool {
+    top: 384px;
+    left: 32px;
+}
+
+.eraser_tool {
+    top: 384px;
+    left: 128px;
+}
+
+.circle_tool {
+    top: 480px;
+    left: 32px;
+}
+
+.rect_tool {
+    top: 480px;
+    left: 128px;
+}
+
+.image_tool {
+    top: 576px;
+    left: 32px;
+}
+
+.export_tool {
+    top: 32px;
+    right: 32px;
+}
