@@ -182,6 +182,13 @@ export default function Whiteboard() {
         forceUpdate();
     };
 
+    const handleSelectText = (ev) => {
+        if (ev.target.hasName('textNode')) {
+            const id = ev.target.attrs.id
+            selectShape(id);
+        }
+    }
+
     const handleShortcuts = (ev) => {
         switch (ev.code) {
             case 'KeyP':
@@ -282,13 +289,6 @@ export default function Whiteboard() {
         const id = addTextNode(stageEl.current.getStage(), layerEl.current, textTransformer.current);
         const newTextNodes = textNodes.concat([{id}]);
         setTextNodes(newTextNodes);
-    }
-
-    const handleSelectText = (ev) => {
-        if (ev.target.hasName('textNode')) {
-            const id = ev.target.attrs.id
-            selectShape(id);
-        }
     }
 
     return (
