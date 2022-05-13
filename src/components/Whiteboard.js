@@ -97,7 +97,7 @@ export default function Whiteboard() {
                 setLines([...lines, {
                     tool,
                     points: [drawPos.x, drawPos.y],
-                    color: 'red',
+                    color: 'black',
                     width: 5
                 }]);
                 break;
@@ -109,7 +109,7 @@ export default function Whiteboard() {
                     tool,
                     points: [erasePos.x, erasePos.y],
                     color: 'black',
-                    width: 5
+                    width: 10
                 }]);
                 break;
             case tools.TEXT:
@@ -317,14 +317,6 @@ export default function Whiteboard() {
                         />
                     </Layer>
                     <Layer ref={layerEl}>
-                        <Transformer
-                            ref={textTransformer}
-                            enabledAnchors={['middle-left', 'middle-right']}
-                            boundBoxFunc={(oldBox, newBox) => {
-                                newBox.width = Math.max(30, newBox.width);
-                                return newBox;
-                            }}
-                        />
                         {lines.map((line, i) => (
                             <Line
                                 key={i}
@@ -338,6 +330,14 @@ export default function Whiteboard() {
                                 }
                             />
                         ))}
+                        <Transformer
+                            ref={textTransformer}
+                            enabledAnchors={['middle-left', 'middle-right']}
+                            boundBoxFunc={(oldBox, newBox) => {
+                                newBox.width = Math.max(30, newBox.width);
+                                return newBox;
+                            }}
+                        />
                         {images.map((image, i) => {
                             return (
                                 <Img
