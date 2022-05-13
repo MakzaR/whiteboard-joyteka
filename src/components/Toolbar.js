@@ -13,31 +13,62 @@ export default function Toolbar(props) {
 
     return (
         <>
-            <button className={`${styles.tool_button} ${styles.cursor_tool}`} onClick={() => changeTool(tools.CURSOR)}>
+            <button
+                className={`${styles.tool_button} ${styles.cursor_tool}`}
+                onClick={() => {
+                    changeTool(tools.CURSOR);
+                }}
+            >
                 <img src={CursorIcon} alt="Курсор"/>
             </button>
-            <button className={`${styles.tool_button} ${styles.hand_tool}`} onClick={() => changeTool(tools.HAND)}>
+            <button
+                className={`${styles.tool_button} ${styles.hand_tool}`}
+                onClick={() => {
+                    changeTool(tools.HAND);
+                }}
+            >
                 <img src={HandIcon} alt="Рука"/>
             </button>
-            <button className={`${styles.tool_button} ${styles.text_tool}`} onClick={() => changeTool(tools.TEXT)}>
+            <button
+                className={`${styles.tool_button} ${styles.text_tool}`}
+                onClick={() => changeTool(tools.TEXT)}
+            >
                 <img src={TextIcon} alt="Текст"/>
             </button>
-            <button className={`${styles.tool_button} ${styles.pen_tool}`} onClick={() => changeTool(tools.PEN)}>
+            <button
+                className={`${styles.tool_button} ${styles.pen_tool}`}
+                onClick={() => changeTool(tools.PEN)}
+            >
                 Pen
             </button>
-            <button className={`${styles.tool_button} ${styles.eraser_tool}`} onClick={() => changeTool(tools.ERASER)}>
+            <button
+                className={`${styles.tool_button} ${styles.eraser_tool}`}
+                onClick={() => changeTool(tools.ERASER)}
+            >
                 Eraser
             </button>
-            <button className={`${styles.tool_button} ${styles.circle_tool}`} onClick={() => changeTool(tools.CIRCLE)}>
+            <button
+                className={`${styles.tool_button} ${styles.circle_tool}`}
+                onClick={() => changeTool(tools.CIRCLE)}
+            >
                 Add circle
             </button>
-            <button className={`${styles.tool_button} ${styles.rect_tool}`} onClick={() => changeTool(tools.RECTANGLE)}>
+            <button
+                className={`${styles.tool_button} ${styles.rect_tool}`}
+                onClick={() => changeTool(tools.RECTANGLE)}
+            >
                 Add rect
             </button>
-            <button className={`${styles.tool_button} ${styles.image_tool}`} onClick={props.addImage}>
+            <button
+                className={`${styles.tool_button} ${styles.image_tool}`}
+                onClick={props.addImage}
+            >
                 <img src={ClipIcon} alt="Изображение"/>
             </button>
-            <button className={`${styles.tool_button} ${styles.export_tool}`} onClick={props.handleExport}>
+            <button
+                className={`${styles.tool_button} ${styles.export_tool}`}
+                onClick={props.handleExport}
+            >
                 Export
             </button>
         </>

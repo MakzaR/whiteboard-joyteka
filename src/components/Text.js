@@ -16,15 +16,6 @@ export const addTextNode = (stage, layer, transformer) => {
 
     layer.add(textNode);
 
-    // let transformer = new Konva.Transformer({
-    //     node: textNode,
-    //     enabledAnchors: ['middle-left', 'middle-right'],
-    //     boundBoxFunc: function (oldBox, newBox) {
-    //         newBox.width = Math.max(30, newBox.width);
-    //         return newBox;
-    //     }
-    // });
-
     stage.on('click', function (ev) {
         const clickedOnEmptyStage = ev.target === ev.target.getStage();
         const clickedOnEmptyBackground = ev.target._id === 17;
@@ -45,7 +36,6 @@ export const addTextNode = (stage, layer, transformer) => {
         });
     });
 
-    // layer.add(transformer);
     layer.draw();
 
     textNode.on('dblclick', () => {
@@ -158,9 +148,6 @@ export const addTextNode = (stage, layer, transformer) => {
 }
 
 export const deleteTextNode = (layer, currentShape, transformer) => {
-    // const transformer = layer.find('Transformer').toArray().find(tr => tr.nodes()[0] === currentShape);
-    // transformer = layer.find('Transformer').find(tr => tr.nodes()[0] === currentShape);
-    // console.log(transformer.nodes()[0] === currentShape)
     transformer.nodes([]);
     currentShape.destroy();
     layer.draw();
