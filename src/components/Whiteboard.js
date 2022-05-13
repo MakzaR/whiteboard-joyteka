@@ -169,15 +169,15 @@ export default function Whiteboard() {
             setImages(images);
         }
 
-        // let textIndex = textNodes.findIndex(t => t.id === selectedId);
-        // console.log(selectedId);
-        // console.log(textIndex);
-        // console.log(textNodes);
-        // if (textIndex !== -1) {
-        //     textNodes.splice(textIndex, 1);
-        //     deleteTextNode(layerEl.current, textTransformer.current)
-        //     setTextNodes(textNodes);
-        // }
+        let textIndex = textNodes.findIndex(t => t.id === selectedId);
+        if (textIndex !== -1) {
+            const currentShape = layerEl.current.findOne(node => {
+                return node.attrs.id === textNodes[textIndex].id
+            });
+            deleteTextNode(layerEl.current, currentShape, textTransformer.current)
+            textNodes.splice(textIndex, 1);
+            setTextNodes(textNodes);
+        }
 
         forceUpdate();
     };
@@ -287,11 +287,7 @@ export default function Whiteboard() {
     const handleSelectText = (ev) => {
         if (ev.target.hasName('textNode')) {
             const id = ev.target.attrs.id
-            console.log(ev.target)
-            console.log(id);
             selectShape(id);
-            console.log(selectedId === id)
-            // deleteTextNode(layerEl.current, ev.target)
         }
     }
 
