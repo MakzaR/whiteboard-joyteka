@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Image, Layer, Line, Stage, Transformer} from 'react-konva';
 import useImage from "use-image";
 import {useTools} from "../contexts/ToolContext";
+import {useColors} from "../contexts/ColorContext";
 
 import Toolbar from "./Toolbar";
 import Circ from './Circle';
@@ -26,7 +27,10 @@ function downloadURI(uri, name) {
 
 export default function Whiteboard() {
     const {tools, getTool, changeTool} = useTools();
-    const tool = getTool();
+    const {getColor} = useColors();
+
+    const currentTool = getTool();
+    const currentColor = getColor();
 
     const [lines, setLines] = useState([]);
     const [images, setImages] = useState([]);
@@ -83,7 +87,7 @@ export default function Whiteboard() {
         }
 
         const stage = stageEl.current.getStage();
-        switch (tool) {
+        switch (currentTool) {
             case tools.CURSOR:
                 stage.draggable(false);
                 break;
@@ -95,9 +99,9 @@ export default function Whiteboard() {
                 isDrawing.current = true;
                 const drawPos = e.target.getStage().getRelativePointerPosition();
                 setLines([...lines, {
-                    tool,
+                    tool: currentTool,
                     points: [drawPos.x, drawPos.y],
-                    color: 'black',
+                    color: currentColor,
                     width: 5
                 }]);
                 break;
@@ -106,7 +110,7 @@ export default function Whiteboard() {
                 isDrawing.current = true;
                 const erasePos = e.target.getStage().getRelativePointerPosition();
                 setLines([...lines, {
-                    tool,
+                    tool: currentTool,
                     points: [erasePos.x, erasePos.y],
                     color: 'black',
                     width: 10
@@ -133,7 +137,7 @@ export default function Whiteboard() {
     }
 
     const handleMouseMove = (e) => {
-        if (tool === tools.PEN || tool === tools.ERASER) {
+        if (currentTool === tools.PEN || currentTool === tools.ERASER) {
             if (!isDrawing.current) {
                 return;
             }

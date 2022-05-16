@@ -1,15 +1,15 @@
 import './App.css';
 import Whiteboard from "./components/Whiteboard";
-import {ToolProvider} from "./contexts/ToolContext";
+import {WhiteboardContextProvider} from "./contexts/WhiteboardContextProvider";
 
 function App() {
-  return (
-    <div className="App">
-        <ToolProvider>
-            <Whiteboard/>
-        </ToolProvider>
-    </div>
-  );
+    return (
+        <div className="App">
+            <WhiteboardContextProvider>
+                <Whiteboard/>
+            </WhiteboardContextProvider>
+        </div>
+    );
 }
 
 export default App;

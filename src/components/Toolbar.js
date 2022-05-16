@@ -1,4 +1,5 @@
 import React from 'react';
+import Colors from "./Colors";
 import {useTools} from "../contexts/ToolContext";
 
 import styles from './Toolbar.module.css';
@@ -76,6 +77,7 @@ export default function Toolbar(props) {
             >
                 <img src={ExportIcon} alt='Экспорт'/>
             </button>
+            <Colors choosePen={() => changeTool(tools.PEN)}/>
         </>
     );
 }
