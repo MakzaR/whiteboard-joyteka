@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/whiteboard-joyteka/static/css/main.dc425c19.css",
-    "main.js": "/whiteboard-joyteka/static/js/main.6e4cf203.js",
+    "main.css": "/whiteboard-joyteka/static/css/main.f33df040.css",
+    "main.js": "/whiteboard-joyteka/static/js/main.c432435d.js",
     "static/media/Background.svg": "/whiteboard-joyteka/static/media/Background.afd76eef303f7c07ffa5ab714cee3598.svg",
     "static/media/Hand.svg": "/whiteboard-joyteka/static/media/Hand.49dcabc22e732d912e2eb05db1d40b7d.svg",
     "static/media/Export.svg": "/whiteboard-joyteka/static/media/Export.2d2950baefa2648f2b8a519b7266a72b.svg",
@@ -13,11 +13,11 @@
     "index.html": "/whiteboard-joyteka/index.html",
     "static/media/Rectangle.svg": "/whiteboard-joyteka/static/media/Rectangle.e9be0beff461e851d933ad2d533464e9.svg",
     "static/media/Circle.svg": "/whiteboard-joyteka/static/media/Circle.81cbedaeae014ff8afaba7a0d5a0c697.svg",
-    "main.dc425c19.css.map": "/whiteboard-joyteka/static/css/main.dc425c19.css.map",
-    "main.6e4cf203.js.map": "/whiteboard-joyteka/static/js/main.6e4cf203.js.map"
+    "main.f33df040.css.map": "/whiteboard-joyteka/static/css/main.f33df040.css.map",
+    "main.c432435d.js.map": "/whiteboard-joyteka/static/js/main.c432435d.js.map"
   },
   "entrypoints": [
-    "static/css/main.dc425c19.css",
-    "static/js/main.6e4cf203.js"
+    "static/css/main.f33df040.css",
+    "static/js/main.c432435d.js"
   ]
 }
