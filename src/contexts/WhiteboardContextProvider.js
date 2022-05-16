@@ -1,13 +1,14 @@
-import React from 'react';
-import {combineComponents} from "./combineContexts";
+import {combineContexts} from "./combineContexts";
 
 import {ToolProvider} from "./ToolContext";
 import {ColorProvider} from "./ColorContext";
+import {WidthProvider} from "./WidthContext";
 
 
 const providers = [
     ToolProvider,
     ColorProvider,
+    WidthProvider
 ]
 
-export const WhiteboardContextProvider = combineComponents(...providers);
+export const WhiteboardContextProvider = combineContexts(...providers);

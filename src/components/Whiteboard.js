@@ -11,6 +11,7 @@ import Img from "./Image";
 import {addTextNode, deleteTextNode} from "./Text";
 
 import backgroundImage from '../images/Background.svg';
+import {useWidth} from "../contexts/WidthContext";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -30,9 +31,11 @@ function downloadURI(uri, name) {
 export default function Whiteboard() {
     const {tools, getTool, changeTool} = useTools();
     const {getColor} = useColors();
+    const {getWidth} = useWidth();
 
     const currentTool = getTool();
     const currentColor = getColor();
+    const currentWidth = getWidth();
 
     const [lines, setLines] = useState([]);
     const [images, setImages] = useState([]);
@@ -99,12 +102,12 @@ export default function Whiteboard() {
             case tools.PEN:
                 stage.draggable(false);
                 isDrawing.current = true;
-                addLines(e, currentTool, currentColor, 10)
+                addLines(e, currentTool, currentColor, currentWidth)
                 break;
             case tools.ERASER:
                 stage.draggable(false);
                 isDrawing.current = true;
-                addLines(e, currentTool, 'black', 10)
+                addLines(e, currentTool, 'black', currentWidth + 5)
                 break;
             case tools.TEXT:
                 stage.draggable(false);
@@ -245,6 +248,7 @@ export default function Whiteboard() {
             width: 100,
             height: 100,
             stroke: currentColor,
+            strokeWidth: currentWidth,
             id: `circle${circles.length + 1}`,
         };
         const newCircles = circles.concat([circle]);
@@ -259,6 +263,7 @@ export default function Whiteboard() {
             width: 100,
             height: 100,
             stroke: currentColor,
+            strokeWidth: currentWidth,
             id: `rect${rectangles.length + 1}`,
         };
         const newRects = rectangles.concat([rect]);

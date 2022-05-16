@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const combineComponents = (...components) => {
+export const combineContexts = (...components) => {
     return components.reduce(
         (AccumulatedComponents, CurrentComponent) => {
             return ({children}) => {
