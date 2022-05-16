@@ -19,6 +19,7 @@ export default function WidthSlider() {
                     changeWidth(event.target.valueAsNumber)
                 }}
             />
+            <div className={styles.width}>{width}</div>
         </div>
     );
 }

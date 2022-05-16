@@ -31,7 +31,7 @@ function downloadURI(uri, name) {
 export default function Whiteboard() {
     const {tools, getTool, changeTool} = useTools();
     const {getColor} = useColors();
-    const {getWidth} = useWidth();
+    const {getWidth, changeWidth} = useWidth();
 
     const currentTool = getTool();
     const currentColor = getColor();
@@ -211,6 +211,16 @@ export default function Whiteboard() {
                 break;
             case 'KeyI':
                 addImage();
+                break;
+            case 'BracketRight':
+                if (currentWidth < 20) {
+                    changeWidth(currentWidth + 1);
+                }
+                break;
+            case 'BracketLeft':
+                if (currentWidth > 1) {
+                    changeWidth(currentWidth - 1);
+                }
                 break;
             default:
                 break;
