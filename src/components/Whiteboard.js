@@ -242,7 +242,7 @@ export default function Whiteboard() {
                 x: (pointerX - stage.x()) / oldScale,
                 y: (pointerY - stage.y()) / oldScale,
             };
-            const newScale = event.evt.deltaY > 0 ? oldScale * SCALE_BY : oldScale / SCALE_BY;
+            const newScale = event.evt.deltaY > 0 ? oldScale / SCALE_BY : oldScale * SCALE_BY;
             if (newScale < SCALE_MAX && newScale > SCALE_MIN) {
                 stage.scale({x: newScale, y: newScale});
                 const newPos = {
