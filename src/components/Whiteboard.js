@@ -102,12 +102,12 @@ export default function Whiteboard() {
             case tools.PEN:
                 stage.draggable(false);
                 isDrawing.current = true;
-                addLines(e, currentTool, currentColor, currentWidth)
+                addLines(e, currentTool, currentColor, currentWidth);
                 break;
             case tools.ERASER:
                 stage.draggable(false);
                 isDrawing.current = true;
-                addLines(e, currentTool, 'black', currentWidth + 5)
+                addLines(e, currentTool, 'black', currentWidth + 10);
                 break;
             case tools.TEXT:
                 stage.draggable(false);
@@ -188,14 +188,29 @@ export default function Whiteboard() {
 
     const handleShortcuts = (ev) => {
         switch (ev.code) {
+            case 'KeyC':
+                changeTool(tools.CURSOR);
+                break;
+            case 'KeyH':
+                changeTool(tools.HAND);
+                break;
+            case 'KeyT':
+                changeTool(tools.TEXT);
+                break;
             case 'KeyP':
                 changeTool(tools.PEN);
                 break;
             case 'KeyE':
                 changeTool(tools.ERASER);
                 break;
-            case 'KeyC':
-                changeTool(tools.CURSOR);
+            case 'KeyO':
+                changeTool(tools.CIRCLE);
+                break;
+            case 'KeyR':
+                changeTool(tools.RECTANGLE);
+                break;
+            case 'KeyI':
+                addImage();
                 break;
             default:
                 break;
