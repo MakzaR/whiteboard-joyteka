@@ -4,7 +4,7 @@ import useImage from "use-image";
 import {useTools} from "../contexts/ToolContext";
 import {useColors} from "../contexts/ColorContext";
 
-import Toolbar from "./Toolbar";
+import Toolbar from "./Toolbar/Toolbar";
 import Circ from './Circle';
 import Rectangle from "./Rectangle";
 import Img from "./Image";
@@ -244,7 +244,7 @@ export default function Whiteboard() {
             y: stage.getRelativePointerPosition().y,
             width: 100,
             height: 100,
-            stroke: 'black',
+            stroke: currentColor,
             id: `circle${circles.length + 1}`,
         };
         const newCircles = circles.concat([circle]);
@@ -258,7 +258,7 @@ export default function Whiteboard() {
             y: stage.getRelativePointerPosition().y,
             width: 100,
             height: 100,
-            stroke: 'black',
+            stroke: currentColor,
             id: `rect${rectangles.length + 1}`,
         };
         const newRects = rectangles.concat([rect]);

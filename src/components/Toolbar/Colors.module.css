@@ -1,0 +1,43 @@
+.color_button {
+    position: fixed;
+    z-index: 1;
+    width: 39px;
+    height: 39px;
+    border: solid 1px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 1px 1px 35px rgba(0, 0, 0, .1);
+    bottom: 32px;
+}
+
+.black {
+    left: 32px;
+    background: #000000;
+}
+
+.white {
+    left: 80px;
+    background: #FFFFFF;
+}
+
+.red {
+    left: 128px;
+    background: #EB5757;
+}
+
+.yellow {
+    left: 176px;
+    background: #FEC807;
+}
+
+.blue {
+    left: 224px;
+    background: #0080D6;
+}
+
+.green {
+    left: 272px;
+    background: #009595;
+}
+
+

@@ -1,18 +1,18 @@
 import React from 'react';
 import Colors from "./Colors";
-import {useTools} from "../contexts/ToolContext";
+import {useTools} from "../../contexts/ToolContext";
 
 import styles from './Toolbar.module.css';
 
-import CursorIcon from '../images/Cursor.svg';
-import HandIcon from '../images/Hand.svg';
-import TextIcon from '../images/Text.svg';
-import PenIcon from '../images/Pen.svg';
-import EraserIcon from '../images/Eraser.svg';
-import CircleIcon from '../images/Circle.svg';
-import RectIcon from '../images/Rectangle.svg';
-import ClipIcon from '../images/Clip.svg';
-import ExportIcon from '../images/Export.svg';
+import CursorIcon from '../../images/Cursor.svg';
+import HandIcon from '../../images/Hand.svg';
+import TextIcon from '../../images/Text.svg';
+import PenIcon from '../../images/Pen.svg';
+import EraserIcon from '../../images/Eraser.svg';
+import CircleIcon from '../../images/Circle.svg';
+import RectIcon from '../../images/Rectangle.svg';
+import ClipIcon from '../../images/Clip.svg';
+import ExportIcon from '../../images/Export.svg';
 
 export default function Toolbar(props) {
     const {tools, changeTool} = useTools();
@@ -77,7 +77,7 @@ export default function Toolbar(props) {
             >
                 <img src={ExportIcon} alt='Экспорт'/>
             </button>
-            <Colors choosePen={() => changeTool(tools.PEN)}/>
+            <Colors/>
         </>
     );
 }
