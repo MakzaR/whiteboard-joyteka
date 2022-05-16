@@ -4,32 +4,37 @@ import {useColors} from "../../contexts/ColorContext";
 import styles from './Colors.module.css';
 
 export default function Colors() {
-    const {colors, changeColor} = useColors();
+    const {colors, getColor, changeColor} = useColors();
+    const currentColor = getColor();
+
+    const addStyles = (colorStyle, color) => {
+        return `${styles.color_button} ${colorStyle} ${currentColor === color ? styles.active : ''}`;
+    }
 
     return (
         <>
             <button
-                className={`${styles.color_button} ${styles.black}`}
-                onClick={() => changeColor(colors.BLACK)}
+                className={addStyles(styles.black, colors.BLACK)}
+                onClick={() => {changeColor(colors.BLACK)}}
             />
             <button
-                className={`${styles.color_button} ${styles.white}`}
+                className={addStyles(styles.white, colors.WHITE)}
                 onClick={() => changeColor(colors.WHITE)}
             />
             <button
-                className={`${styles.color_button} ${styles.red}`}
+                className={addStyles(styles.red, colors.RED)}
                 onClick={() => changeColor(colors.RED)}
             />
             <button
-                className={`${styles.color_button} ${styles.yellow}`}
+                className={addStyles(styles.yellow, colors.YELLOW)}
                 onClick={() => changeColor(colors.YELLOW)}
             />
             <button
-                className={`${styles.color_button} ${styles.blue}`}
+                className={addStyles(styles.blue, colors.BLUE)}
                 onClick={() => changeColor(colors.BLUE)}
             />
             <button
-                className={`${styles.color_button} ${styles.green}`}
+                className={addStyles(styles.green, colors.GREEN)}
                 onClick={() => changeColor(colors.GREEN)}
             />
         </>

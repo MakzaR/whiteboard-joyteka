@@ -27,7 +27,7 @@ export default function Toolbar(props) {
     return (
         <>
             <button
-                className={addStyles(styles.cursor_tool, 'cursor')}
+                className={addStyles(styles.cursor_tool, tools.CURSOR)}
                 onClick={() => {
                     changeTool(tools.CURSOR)
                 }}
@@ -35,7 +35,7 @@ export default function Toolbar(props) {
                 <img src={CursorIcon} alt='Курсор'/>
             </button>
             <button
-                className={addStyles(styles.hand_tool, 'hand')}
+                className={addStyles(styles.hand_tool, tools.HAND)}
                 onClick={() => {
                     changeTool(tools.HAND);
                 }}
@@ -43,31 +43,31 @@ export default function Toolbar(props) {
                 <img src={HandIcon} alt='Рука'/>
             </button>
             <button
-                className={addStyles(styles.text_tool, 'text')}
+                className={addStyles(styles.text_tool, tools.TEXT)}
                 onClick={() => changeTool(tools.TEXT)}
             >
                 <img src={TextIcon} alt='Текст'/>
             </button>
             <button
-                className={addStyles(styles.pen_tool, 'pen')}
+                className={addStyles(styles.pen_tool, tools.PEN)}
                 onClick={() => changeTool(tools.PEN)}
             >
                 <img src={PenIcon} alt='Кисть'/>
             </button>
             <button
-                className={addStyles(styles.eraser_tool, 'eraser')}
+                className={addStyles(styles.eraser_tool, tools.ERASER)}
                 onClick={() => changeTool(tools.ERASER)}
             >
                 <img src={EraserIcon} alt='Ластик'/>
             </button>
             <button
-                className={addStyles(styles.circle_tool, 'circle')}
+                className={addStyles(styles.circle_tool, tools.CIRCLE)}
                 onClick={() => changeTool(tools.CIRCLE)}
             >
                 <img src={CircleIcon} alt='Круг'/>
             </button>
             <button
-                className={addStyles(styles.rect_tool, 'rectangle')}
+                className={addStyles(styles.rect_tool, tools.RECTANGLE)}
                 onClick={() => changeTool(tools.RECTANGLE)}
             >
                 <img src={RectIcon} alt='Прямоугольник'/>

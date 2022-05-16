@@ -10,10 +10,6 @@
     box-shadow: 1px 1px 35px rgba(0, 0, 0, .1);
 }
 
-.tool_button:active {
-    border: solid 2px #3AB8BC;
-}
-
 .active {
     border: solid 2px #3AB8BC;
 }
