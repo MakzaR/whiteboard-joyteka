@@ -1,5 +1,7 @@
 import React from 'react';
 import Colors from "./Colors";
+import WidthSlider from "./WidthSlider";
+
 import {useTools} from "../../contexts/ToolContext";
 
 import styles from './Toolbar.module.css';
@@ -13,7 +15,6 @@ import CircleIcon from '../../images/Circle.svg';
 import RectIcon from '../../images/Rectangle.svg';
 import ClipIcon from '../../images/Clip.svg';
 import ExportIcon from '../../images/Export.svg';
-import WidthSlider from "./WidthSlider";
 
 export default function Toolbar(props) {
     const {tools, changeTool} = useTools();
