@@ -15,6 +15,8 @@ import backgroundImage from '../images/Background.svg';
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
 const SCALE_MIN = 0.65;
+const STAGE_HEIGHT = 1500;
+const STAGE_WIDTH = 3000;
 
 function downloadURI(uri, name) {
     let link = document.createElement('a');
@@ -97,24 +99,12 @@ export default function Whiteboard() {
             case tools.PEN:
                 stage.draggable(false);
                 isDrawing.current = true;
-                const drawPos = e.target.getStage().getRelativePointerPosition();
-                setLines([...lines, {
-                    tool: currentTool,
-                    points: [drawPos.x, drawPos.y],
-                    color: currentColor,
-                    width: 5
-                }]);
+                addLines(e, currentTool, currentColor, 10)
                 break;
             case tools.ERASER:
                 stage.draggable(false);
                 isDrawing.current = true;
-                const erasePos = e.target.getStage().getRelativePointerPosition();
-                setLines([...lines, {
-                    tool: currentTool,
-                    points: [erasePos.x, erasePos.y],
-                    color: 'black',
-                    width: 10
-                }]);
+                addLines(e, currentTool, 'black', 10)
                 break;
             case tools.TEXT:
                 stage.draggable(false);
@@ -237,6 +227,16 @@ export default function Whiteboard() {
         }
     }
 
+    const addLines = (e, tool, color, width) => {
+        const pos = e.target.getStage().getRelativePointerPosition();
+        setLines([...lines, {
+            tool,
+            points: [pos.x, pos.y],
+            color,
+            width
+        }]);
+    }
+
     const addCircle = (e) => {
         const stage = e.target.getStage();
         const circle = {
@@ -302,8 +302,8 @@ export default function Whiteboard() {
             <div>
                 <Stage
                     ref={stageEl}
-                    width={3000}
-                    height={1500}
+                    width={STAGE_WIDTH}
+                    height={STAGE_HEIGHT}
                     onWheel={zoomStage}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
