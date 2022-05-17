@@ -1,10 +1,10 @@
 import './App.css';
-import WhiteboardApp from "./components/WhiteboardApp";
+import JoytekaWhiteboard from "./lib/components/JoytekaWhiteboard";
 
 function App() {
     return (
         <div className="App">
-            <WhiteboardApp/>
+            <JoytekaWhiteboard/>
         </div>
     );
 }
