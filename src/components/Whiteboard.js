@@ -16,8 +16,8 @@ import {useWidth} from "../contexts/WidthContext";
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
 const SCALE_MIN = 0.65;
-const STAGE_HEIGHT = 1500;
-const STAGE_WIDTH = 3000;
+const HEIGHT = window.innerHeight;
+const WIDTH = window.innerWidth;
 
 function downloadURI(uri, name) {
     let link = document.createElement('a');
@@ -228,7 +228,9 @@ export default function Whiteboard() {
     }
 
     const handleExport = () => {
-        const uri = stageEl.current.toDataURL();
+        stageEl.current.position({x: 0, y: 0});
+        stageEl.current.scale({x: 1, y: 1});
+        const uri = stageEl.current.toDataURL({pixelRatio: 2});
         downloadURI(uri, 'stage.png');
     };
 
@@ -332,8 +334,8 @@ export default function Whiteboard() {
             <div>
                 <Stage
                     ref={stageEl}
-                    width={STAGE_WIDTH}
-                    height={STAGE_HEIGHT}
+                    width={WIDTH}
+                    height={HEIGHT}
                     onWheel={zoomStage}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
@@ -342,6 +344,8 @@ export default function Whiteboard() {
                 >
                     <Layer ref={backLayerEl}>
                         <Image
+                            width={WIDTH}
+                            height={HEIGHT}
                             image={background}
                             shadowColor={'black'}
                             shadowBlur={35}
