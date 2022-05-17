@@ -1,13 +1,10 @@
 import './App.css';
-import Whiteboard from "./components/Whiteboard";
-import {WhiteboardContextProvider} from "./contexts/WhiteboardContextProvider";
+import WhiteboardApp from "./components/WhiteboardApp";
 
 function App() {
     return (
         <div className="App">
-            <WhiteboardContextProvider>
-                <Whiteboard/>
-            </WhiteboardContextProvider>
+            <WhiteboardApp/>
         </div>
     );
 }
