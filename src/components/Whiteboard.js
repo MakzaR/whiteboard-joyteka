@@ -19,13 +19,17 @@ const SCALE_MIN = 0.65;
 const HEIGHT = window.innerHeight;
 const WIDTH = window.innerWidth;
 
-function downloadURI(uri, name) {
+const downloadURI = (uri, name) => {
     let link = document.createElement('a');
     link.download = name;
     link.href = uri;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+const getDist = (firstPoint, secondPoint) => {
+    return ((firstPoint.x - secondPoint.x) ** 2 + (firstPoint.y - secondPoint.y) ** 2) ** 0.5;
 }
 
 export default function Whiteboard() {
@@ -137,9 +141,17 @@ export default function Whiteboard() {
             const stage = e.target.getStage();
             const point = stage.getRelativePointerPosition();
             let lastLine = lines[lines.length - 1];
-            lastLine.points = lastLine.points.concat([point.x, point.y]);
-            lines.splice(lines.length - 1, 1, lastLine);
-            setLines(lines.concat());
+
+            let lastPoint = {
+                x: lastLine.points[lastLine.points.length - 2],
+                y: lastLine.points[lastLine.points.length - 1]
+            };
+
+            if (getDist(lastPoint, point) > 4) {
+                lastLine.points = lastLine.points.concat([point.x, point.y]);
+                lines.splice(lines.length - 1, 1, lastLine);
+                setLines(lines.concat());
+            }
         }
     }
 
