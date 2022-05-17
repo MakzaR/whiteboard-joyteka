@@ -1,13 +1,14 @@
 import React from "react";
-import Whiteboard from "./Whiteboard";
 import {WhiteboardContextProvider} from "../contexts/WhiteboardContextProvider";
+import Whiteboard from "./Whiteboard";
+import './Whiteboard.css';
 
 export default function WhiteboardApp() {
     return (
-        <div className={'whiteboard'}>
-            <WhiteboardContextProvider>
+        <WhiteboardContextProvider>
+            <div className='whiteboard'>
                 <Whiteboard/>
-            </WhiteboardContextProvider>
-        </div>
+            </div>
+        </WhiteboardContextProvider>
     );
 }

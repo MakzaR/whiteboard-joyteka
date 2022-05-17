@@ -16,8 +16,8 @@ import backgroundImage from '../images/Background.svg';
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
 const SCALE_MIN = 0.65;
-const HEIGHT = window.innerHeight;
-const WIDTH = window.innerWidth;
+const HEIGHT = window.innerHeight - 16;
+const WIDTH = window.innerWidth - 16;
 
 const downloadURI = (uri, name) => {
     let link = document.createElement('a');

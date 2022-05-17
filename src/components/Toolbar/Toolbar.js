@@ -28,17 +28,13 @@ export default function Toolbar(props) {
         <>
             <button
                 className={addStyles(styles.cursor_tool, tools.CURSOR)}
-                onClick={() => {
-                    changeTool(tools.CURSOR)
-                }}
+                onClick={() => changeTool(tools.CURSOR)}
             >
                 <img src={CursorIcon} alt='Курсор'/>
             </button>
             <button
                 className={addStyles(styles.hand_tool, tools.HAND)}
-                onClick={() => {
-                    changeTool(tools.HAND);
-                }}
+                onClick={() => changeTool(tools.HAND)}
             >
                 <img src={HandIcon} alt='Рука'/>
             </button>
