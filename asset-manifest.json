@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/whiteboard-joyteka/static/css/main.fb3dc76d.css",
-    "main.js": "/whiteboard-joyteka/static/js/main.909648d5.js",
-    "static/media/Background.svg": "/whiteboard-joyteka/static/media/Background.afd76eef303f7c07ffa5ab714cee3598.svg",
-    "static/media/Hand.svg": "/whiteboard-joyteka/static/media/Hand.49dcabc22e732d912e2eb05db1d40b7d.svg",
-    "static/media/Export.svg": "/whiteboard-joyteka/static/media/Export.2d2950baefa2648f2b8a519b7266a72b.svg",
-    "static/media/Cursor.svg": "/whiteboard-joyteka/static/media/Cursor.542e06721016a4f5d76e98ae77b28094.svg",
-    "static/media/Eraser.svg": "/whiteboard-joyteka/static/media/Eraser.db93d6e015b702dbcb95201ea1af8ff0.svg",
-    "static/media/Pen.svg": "/whiteboard-joyteka/static/media/Pen.af8c1bac8cd21f2e2c5421d80f3086e2.svg",
-    "static/media/Clip.svg": "/whiteboard-joyteka/static/media/Clip.e00e669816512ae40273d1fe9ad7e27a.svg",
-    "static/media/Text.svg": "/whiteboard-joyteka/static/media/Text.d019ed28f82783d48894d4d1b5cee97d.svg",
+    "main.css": "/whiteboard-joyteka/static/css/main.1914fa54.css",
+    "main.js": "/whiteboard-joyteka/static/js/main.f7baf823.js",
+    "static/media/Background.svg": "/whiteboard-joyteka/static/media/Background.452051af79f59329142325652fc698ef.svg",
+    "static/media/Hand.svg": "/whiteboard-joyteka/static/media/Hand.b755eee860e7bac173a43c52cc2b4492.svg",
+    "static/media/Export.svg": "/whiteboard-joyteka/static/media/Export.0b1c56909774c4d2f3bc145d305b256c.svg",
+    "static/media/Cursor.svg": "/whiteboard-joyteka/static/media/Cursor.a2cf2341bdc8d2ebe2a411e43d0fb071.svg",
+    "static/media/Eraser.svg": "/whiteboard-joyteka/static/media/Eraser.bb30a2290278ab9643bbeec743325be8.svg",
+    "static/media/Pen.svg": "/whiteboard-joyteka/static/media/Pen.829906c5587ccd087a4d3abcd913c7c7.svg",
+    "static/media/Clip.svg": "/whiteboard-joyteka/static/media/Clip.5bea0f049fcd00c53a9da5ac4c66034d.svg",
+    "static/media/Text.svg": "/whiteboard-joyteka/static/media/Text.5c5dcf848aebe53b246e7d10e799e301.svg",
     "index.html": "/whiteboard-joyteka/index.html",
-    "static/media/Rectangle.svg": "/whiteboard-joyteka/static/media/Rectangle.e9be0beff461e851d933ad2d533464e9.svg",
-    "static/media/Circle.svg": "/whiteboard-joyteka/static/media/Circle.81cbedaeae014ff8afaba7a0d5a0c697.svg",
-    "main.fb3dc76d.css.map": "/whiteboard-joyteka/static/css/main.fb3dc76d.css.map",
-    "main.909648d5.js.map": "/whiteboard-joyteka/static/js/main.909648d5.js.map"
+    "static/media/Rectangle.svg": "/whiteboard-joyteka/static/media/Rectangle.15a40fd74b99e08cf0ceeb3e448dfff2.svg",
+    "static/media/Circle.svg": "/whiteboard-joyteka/static/media/Circle.bbe4ebf587d3262bb56a2e589d357d4d.svg",
+    "main.1914fa54.css.map": "/whiteboard-joyteka/static/css/main.1914fa54.css.map",
+    "main.f7baf823.js.map": "/whiteboard-joyteka/static/js/main.f7baf823.js.map"
   },
   "entrypoints": [
-    "static/css/main.fb3dc76d.css",
-    "static/js/main.909648d5.js"
+    "static/css/main.1914fa54.css",
+    "static/js/main.f7baf823.js"
   ]
 }
