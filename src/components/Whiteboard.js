@@ -3,6 +3,7 @@ import {Image, Layer, Line, Stage, Transformer} from 'react-konva';
 import useImage from "use-image";
 import {useTools} from "../contexts/ToolContext";
 import {useColors} from "../contexts/ColorContext";
+import {useWidth} from "../contexts/WidthContext";
 
 import Toolbar from "./Toolbar/Toolbar";
 import Circ from './Circle';
@@ -11,7 +12,6 @@ import Img from "./Image";
 import {addTextNode, deleteTextNode} from "./Text";
 
 import backgroundImage from '../images/Background.svg';
-import {useWidth} from "../contexts/WidthContext";
 
 const SCALE_BY = 1.2;
 const SCALE_MAX = 5;
@@ -305,8 +305,8 @@ export default function Whiteboard() {
             images.push({
                 content: reader.result,
                 id: `image${images.length + 1}`,
-                x: 600,
-                y: 600
+                x: 500,
+                y: 300
             });
             setImages(images);
             forceUpdate();
@@ -330,7 +330,8 @@ export default function Whiteboard() {
     return (
         <div>
             <Toolbar addImage={addImage} handleExport={handleExport}/>
-            <input ref={imageUploadEl} style={{display: "none"}} type={'file'} onChange={uploadImage}/>
+            <input ref={imageUploadEl} style={{display: "none"}} type={'file'} accept={'image/*'}
+                   onChange={uploadImage}/>
             <div>
                 <Stage
                     ref={stageEl}
