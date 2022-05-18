@@ -1,5 +1,5 @@
 .slider_container {
-    position: fixed;
+    position: absolute;
     bottom: 32px;
     left: 32px;
     z-index: 1;

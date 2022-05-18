@@ -1,8 +1,24 @@
 {
-  "name": "whiteboard-joyteka",
+  "name": "joyteka-whiteboard",
   "version": "0.1.0",
+  "private": false,
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MakzaR/whiteboard-joyteka.git"
+  },
+  "author": "Makar Zarchukov",
   "homepage": "https://makzar.github.io/whiteboard-joyteka",
-  "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -23,7 +39,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "publish:npm": "(if exist dist rmdir /s /q dist) && mkdir dist && babel ./src/lib -d dist --copy-files"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +61,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/preset-react": "^7.17.12",
     "gh-pages": "^4.0.0"
   }
 }
