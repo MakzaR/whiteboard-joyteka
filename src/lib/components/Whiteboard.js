@@ -62,7 +62,7 @@ export default function Whiteboard() {
 
     const keyPress = (ev) => {
         if (ev.code === 'Space') {
-            changeTool(tools.HAND);
+            changeTool(tools.HAND, 'grabbing');
         }
         if (ev.code === "Delete") {
             handleDelete();
@@ -74,7 +74,7 @@ export default function Whiteboard() {
 
     const keyRelease = (ev) => {
         if (ev.code === 'Space') {
-            changeTool(tools.CURSOR)
+            changeTool(tools.CURSOR, 'default')
         }
     };
 
@@ -116,17 +116,17 @@ export default function Whiteboard() {
             case tools.TEXT:
                 stage.draggable(false);
                 addText();
-                changeTool(tools.CURSOR);
+                changeTool(tools.CURSOR, 'default');
                 break;
             case tools.CIRCLE:
                 stage.draggable(false);
                 addCircle(e);
-                changeTool(tools.CURSOR);
+                changeTool(tools.CURSOR, 'default');
                 break;
             case tools.RECTANGLE:
                 stage.draggable(false);
                 addRectangle(e);
-                changeTool(tools.CURSOR);
+                changeTool(tools.CURSOR, 'default');
                 break;
             default:
                 break;
@@ -201,25 +201,25 @@ export default function Whiteboard() {
     const handleShortcuts = (ev) => {
         switch (ev.code) {
             case 'KeyC':
-                changeTool(tools.CURSOR);
+                changeTool(tools.CURSOR, 'default');
                 break;
             case 'KeyH':
-                changeTool(tools.HAND);
+                changeTool(tools.HAND, 'grab');
                 break;
             case 'KeyT':
-                changeTool(tools.TEXT);
+                changeTool(tools.TEXT, 'text');
                 break;
             case 'KeyP':
-                changeTool(tools.PEN);
+                changeTool(tools.PEN, 'crosshair');
                 break;
             case 'KeyE':
-                changeTool(tools.ERASER);
+                changeTool(tools.ERASER, 'crosshair');
                 break;
             case 'KeyO':
-                changeTool(tools.CIRCLE);
+                changeTool(tools.CIRCLE, 'crosshair');
                 break;
             case 'KeyR':
-                changeTool(tools.RECTANGLE);
+                changeTool(tools.RECTANGLE, 'crosshair');
                 break;
             case 'KeyI':
                 addImage();

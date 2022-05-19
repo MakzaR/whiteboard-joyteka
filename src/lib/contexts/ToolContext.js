@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 
 
 const ToolContext = React.createContext();
@@ -9,6 +9,12 @@ export function useTools() {
 
 export function ToolProvider({children}) {
     const [tool, setTool] = useState('cursor')
+
+    const whiteboard = useRef();
+
+    useEffect(() => {
+        whiteboard.current = document.querySelector('.whiteboard');
+    });
 
     const tools = {
         CURSOR: 'cursor',
@@ -24,8 +30,9 @@ export function ToolProvider({children}) {
         return tool;
     }
 
-    const changeTool = (toolName) => {
-        setTool(toolName)
+    const changeTool = (toolName, cursor) => {
+        whiteboard.current.style.cursor = cursor;
+        setTool(toolName);
     }
 
     const value = {
