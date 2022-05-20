@@ -101,6 +101,7 @@ export default function Whiteboard() {
                 stage.draggable(false);
                 break;
             case tools.HAND:
+                changeTool(tools.HAND, 'grabbing');
                 stage.draggable(true);
                 break;
             case tools.PEN:
@@ -157,6 +158,10 @@ export default function Whiteboard() {
 
     const handleMouseUp = () => {
         isDrawing.current = false;
+
+        if (currentTool === tools.HAND) {
+            changeTool(tools.HAND, 'grab');
+        }
     }
 
     const handleDelete = () => {
