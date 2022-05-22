@@ -1,5 +1,6 @@
 .tool_button {
     position: absolute;
+    margin-left: 32px;
     z-index: 1;
     width: 80px;
     height: 80px;
@@ -16,42 +17,52 @@
 
 .cursor_tool {
     top: 32px;
-    left: 32px;
 }
 
 .hand_tool {
     top: 128px;
-    left: 32px;
 }
 
 .text_tool {
     top: 288px;
-    left: 32px;
+}
+
+.drawing_tools {
+    position: absolute;
+    margin-left: 32px;
+    top: 384px;
+    display: flex;
 }
 
 .pen_tool {
-    top: 384px;
-    left: 32px;
+    margin-left: 0;
+    position: relative;
 }
 
 .eraser_tool {
-    top: 384px;
-    left: 128px;
+    margin-left: 16px;
+    position: relative;
+}
+
+.fig_tools {
+    position: absolute;
+    margin-left: 32px;
+    top: 480px;
+    display: flex;
 }
 
 .circle_tool {
-    top: 480px;
-    left: 32px;
+    margin-left: 0;
+    position: relative;
 }
 
 .rect_tool {
-    top: 480px;
-    left: 128px;
+    margin-left: 16px;
+    position: relative;
 }
 
 .image_tool {
     top: 576px;
-    left: 32px;
 }
 
 .export_tool {

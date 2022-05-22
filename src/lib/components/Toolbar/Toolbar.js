@@ -25,7 +25,7 @@ export default function Toolbar(props) {
     }
 
     return (
-        <>
+        <div>
             <button
                 className={addStyles(styles.cursor_tool, tools.CURSOR)}
                 onClick={() => changeTool(tools.CURSOR, 'default')}
@@ -44,30 +44,34 @@ export default function Toolbar(props) {
             >
                 <img src={TextIcon} alt='Текст'/>
             </button>
-            <button
-                className={addStyles(styles.pen_tool, tools.PEN)}
-                onClick={() => changeTool(tools.PEN, 'crosshair')}
-            >
-                <img src={PenIcon} alt='Кисть'/>
-            </button>
-            <button
-                className={addStyles(styles.eraser_tool, tools.ERASER)}
-                onClick={() => changeTool(tools.ERASER, 'crosshair')}
-            >
-                <img src={EraserIcon} alt='Ластик'/>
-            </button>
-            <button
-                className={addStyles(styles.circle_tool, tools.CIRCLE)}
-                onClick={() => changeTool(tools.CIRCLE, 'crosshair')}
-            >
-                <img src={CircleIcon} alt='Круг'/>
-            </button>
-            <button
-                className={addStyles(styles.rect_tool, tools.RECTANGLE)}
-                onClick={() => changeTool(tools.RECTANGLE, 'crosshair')}
-            >
-                <img src={RectIcon} alt='Прямоугольник'/>
-            </button>
+            <div className={styles.drawing_tools}>
+                <button
+                    className={addStyles(styles.pen_tool, tools.PEN)}
+                    onClick={() => changeTool(tools.PEN, 'crosshair')}
+                >
+                    <img src={PenIcon} alt='Кисть'/>
+                </button>
+                <button
+                    className={addStyles(styles.eraser_tool, tools.ERASER)}
+                    onClick={() => changeTool(tools.ERASER, 'crosshair')}
+                >
+                    <img src={EraserIcon} alt='Ластик'/>
+                </button>
+            </div>
+            <div className={styles.fig_tools}>
+                <button
+                    className={addStyles(styles.circle_tool, tools.CIRCLE)}
+                    onClick={() => changeTool(tools.CIRCLE, 'crosshair')}
+                >
+                    <img src={CircleIcon} alt='Круг'/>
+                </button>
+                <button
+                    className={addStyles(styles.rect_tool, tools.RECTANGLE)}
+                    onClick={() => changeTool(tools.RECTANGLE, 'crosshair')}
+                >
+                    <img src={RectIcon} alt='Прямоугольник'/>
+                </button>
+            </div>
             <button
                 className={`${styles.tool_button} ${styles.image_tool}`}
                 onClick={props.addImage}
@@ -82,6 +86,6 @@ export default function Toolbar(props) {
             </button>
             <Colors/>
             <WidthSlider/>
-        </>
+        </div>
     );
 }

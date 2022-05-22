@@ -12,7 +12,7 @@ export default function Colors() {
     }
 
     return (
-        <>
+        <div className={styles.colors_container}>
             <button
                 className={addStyles(styles.black, colors.BLACK)}
                 onClick={() => {changeColor(colors.BLACK)}}
@@ -37,6 +37,6 @@ export default function Colors() {
                 className={addStyles(styles.green, colors.GREEN)}
                 onClick={() => changeColor(colors.GREEN)}
             />
-        </>
+        </div>
     );
 }
